@@ -29,7 +29,11 @@
 	//return N records (todo)
 	function Mongodb_Reader($collection_name,$condition,$type=0){
 		global $SYS_CONFIG;
-		$mogo = Get_Mongodb($SYS_CONFIG["DB"]["MASTER"]);
+		try{
+			$mogo = Get_Mongodb($SYS_CONFIG["DB"]["SLAVE"]);
+		} catch(MongoConnectionException $e) {
+			$mogo = Get_Mongodb($SYS_CONFIG["DB"]["MASTER"]);
+		}
 		$db = $mogo -> $SYS_CONFIG["DB"]["DATABASE"];
 		$collection = $db ->$collection_name;
 		if($type == 1){
