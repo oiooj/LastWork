@@ -92,7 +92,10 @@
 	//Connect to Memcached Servers
 	function Get_Memcached(){
 		global $SYS_CONFIG;
-		return new memcached($SYS_CONFIG["MEMCACHE_SERVERS"]);
+		if($SYS_CONFIG["USE_MEMCACHE"]){
+			return new memcached($SYS_CONFIG["MEMCACHE_SERVERS"]);
+		}
+		return false;
 	}
 
 	//Close Memcached
@@ -102,27 +105,30 @@
 	
 	//Memcached Setter
 	function Memcached_Setter($key,$value){
-		$m = Get_Memcached();
-		$m -> set ($key,$value);
-		Close_Memcached($m);
+		if($m = Get_Memcached()){
+			$m -> set ($key,$value);
+			Close_Memcached($m);
+		}
 	}
 	
 	//Memcached Getter
 	function Memcached_Getter($key){
-		$m = Get_Memcached();
-		$res = $m -> get ($key);
-		Close_Memcached($m);
-		if($res == false || $res == 16){
-			return false;
+		if($m = Get_Memcached()){
+			$res = $m -> get ($key);
+			Close_Memcached($m);
+			if($res == false || $res == 16){
+				return false;
+			}
+			return $res;
 		}
-		return $res;
 	}
 	
 	//Memcached Rrmover
 	function Memcached_Remover($key){
-		$m = Get_Memcached();
-		$m -> delete($key);
-		Close_Memcached($m);
+		if($m = Get_Memcached()){
+			$m -> delete($key);
+			Close_Memcached($m);
+		}
 	}
 	
 	///////////////////////////////////Utils/////////////////////////////////////////	
