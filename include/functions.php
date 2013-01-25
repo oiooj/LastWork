@@ -1,8 +1,8 @@
-<?php
+﻿<?php
 	
 	require_once("config.php");
-	require_once( "memcached-client.php");
-	
+	require_once("memcached-client.php");
+	require_once("phpmailer/class.phpmailer.php");
 	
 	///////////////////////////////////MongoDB//////////////////////////////////////////
 	
@@ -10,6 +10,7 @@
 	function Get_Mongodb($server="mongodb://192.168.139.100:27017"){
 		return new Mongo($server); 
 	}
+	
 	//Close MongoDB
 	function Close_Mongodb($mogo){
 		$mogo->close(); 
@@ -90,10 +91,15 @@
 	///////////////////////////////////Memcached/////////////////////////////////////////
 	
 	//Connect to Memcached Servers
-	function Get_Memcached(){
+	function Get_Memcached($server = "DATA_SERVER"){
 		global $SYS_CONFIG;
-		if($SYS_CONFIG["USE_MEMCACHE"]){
-			return new memcached($SYS_CONFIG["MEMCACHE_SERVERS"]);
+		if($server == "DATA_SERVER"){
+			if($SYS_CONFIG["USE_MEMCACHE"]){
+				return new memcached($SYS_CONFIG["MEMCACHE_SERVERS"]);
+			}
+		}
+		if($server == "AccessToken_SERVER"){
+			return new memcached($SYS_CONFIG["ACCESSTOKEN_SERVERS"]);
 		}
 		return false;
 	}
@@ -130,13 +136,125 @@
 			Close_Memcached($m);
 		}
 	}
+
+
 	
-	///////////////////////////////////Utils/////////////////////////////////////////	
+	///////////////////////////////////Memcached AccessToken/////////////////////////
 	
-	function Create_Key($str){
-		return md5(trim($str));
+	function Create_AccessToken($username){
+		return strtoupper(md5(uniqid(rand(-2147483640, 2147483640), true).time().microtime().$username));
+	}
+	
+	function AccessToken_Setter($username,$accesstoken = null){	
+		global $SYS_CONFIG;	
+		if($m = Get_Memcached("AccessToken_SERVER")){
+			if(null == $accesstoken){
+				$accesstoken = Create_AccessToken($username);
+			}
+			$m -> set ($accesstoken,$username,$SYS_CONFIG["ACCESS_TOKEN_TIME"]); //设置过期时间
+			Close_Memcached($m);
+		}
+	}
+	
+	/*
+	function AccessToken_Updater($accesstoken,$username){	
+		global $SYS_CONFIG;
+		if($m = Get_Memcached("AccessToken_SERVER")){
+			$m -> set ($accesstoken,$username,$SYS_CONFIG["ACCESS_TOKEN_TIME"]); 
+			Close_Memcached($m);
+		}
+	}
+	*/
+
+	function AccessToken_Getter($accesstoken){		
+		if($m = Get_Memcached("AccessToken_SERVER")){
+			$res = $m -> get ($accesstoken);
+			Close_Memcached($m);
+			if($res == false || $res == 16){
+				return false;
+			}else{
+				AccessToken_Setter($res,$accesstoken);
+			}
+			return $res;
+		}
+	}
+
+	function AccessToken_Remover($accesstoken){
+		if($m = Get_Memcached("AccessToken_SERVER")){
+			$m -> delete($accesstoken);
+			Close_Memcached($m);
+		}
 	}
 	
 	
 	
+	///////////////////////////////////Time Utils////////////////////////////////////
+
+	function Microtime_Float(){
+		list($usec, $sec) = explode(" ", microtime());
+		return ((float)$usec + (float)$sec);
+	}
+	
+	function GetExecuteTime($time_start) {
+		return round((Microtime_Float() - $time_start) * 1000);
+	}
+	
+	
+	
+	///////////////////////////////////Utils/////////////////////////////////////////	
+	
+	//Create Key
+	function Create_Key($str){
+		return md5(trim($str));
+	}
+	
+	//String Filter
+	function Str_filter($str){
+		if(trim($str) == ""){
+			return false;
+		}
+		return $str;
+	}
+	
+	//Return json error result
+	function Return_Error($bool,$error_code,$message){
+		return json_encode(array("error" => $bool,"error_code" => $error_code,"message" => $message));
+	}
+
+	//Send Email
+	function Email_Sender($email,$title,$content,$bak_content = ""){
+		global $SYS_CONFIG;
+		$mail = new PHPMailer();
+		$mail->IsSMTP();                                                                        // 启用SMTP
+		$mail->Host          =     $SYS_CONFIG["EMAIL"]["HOST"];			                    // SMTP服务器
+		$mail->SMTPAuth      =     true;					                                    // 开启SMTP认证
+		$mail->Username      =     $SYS_CONFIG["EMAIL"]["USER"];			                    // SMTP用户名
+		$mail->Password      =     $SYS_CONFIG["EMAIL"]["PASS"];	                            // SMTP密码
+		$mail->From          =     $SYS_CONFIG["EMAIL"]["USER"];		                        // 发件人地址
+		$mail->FromName      =     $SYS_CONFIG["EMAIL"]["TEAM"];				                // 发件人
+		$mail->AddAddress($email);                                                              // 添加收件人
+		$mail->AddReplyTo($SYS_CONFIG["EMAIL"]["USER"], "RE:".$SYS_CONFIG["EMAIL"]["TEAM"]);	// 回复地址
+		$mail->WordWrap = 50;					                                                // 设置每行字符长度
+		/** 附件设置
+		$mail->AddAttachment("/var/tmp/file.tar.gz");		                                    // 添加附件
+		$mail->AddAttachment("/tmp/image.jpg", "new.jpg");                                  	// 添加附件,并指定名称
+		*/
+		$mail->IsHTML(true);					                                                // 是否HTML格式邮件
+		$mail->Subject = $title;			                                                    // 邮件主题
+		$mail->Body    = $content;		                                                        // 邮件内容
+		$mail->AltBody = $bak_content;	                                                        // 邮件正文不支持HTML的备用显示
+
+		if(!$mail->Send())
+		{
+		   // echo "Message could not be sent. <p>";
+		   // echo "Mailer Error: " . $mail->ErrorInfo;
+		   return false;		   
+		}
+		else
+		{
+			// echo "Message has been sent";
+			return true;
+		}
+	}
+
 ?>

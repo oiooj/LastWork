@@ -1,0 +1,170 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>API Doc</title>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+</head>
+<style type="text/css">
+
+body {
+ font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+ color: #4f6b72;
+ background: #E6EAE9;
+}
+a {
+ color: #c75f3e;
+}
+#mytable {
+ width: 900px;
+ padding: 0;
+ margin: 0;
+}
+#errorcode {
+ width: 900px;
+ padding: 0;
+ margin: 0;
+}
+caption {
+ padding: 0 0 5px 0;
+ width: 700px; 
+ font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+ text-align: right;
+}
+th {
+ font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+ color: #4f6b72;
+ border-right: 1px solid #C1DAD7;
+ border-bottom: 1px solid #C1DAD7;
+ border-top: 1px solid #C1DAD7;
+ letter-spacing: 2px;
+ text-transform: uppercase;
+ text-align: left;
+ padding: 6px 6px 6px 12px;
+ background: #CAE8EA url(images/bg_header.jpg) no-repeat;
+}
+th.nobg {
+ border-top: 0;
+ border-left: 0;
+ border-right: 1px solid #C1DAD7;
+ background: none;
+}
+td {
+ border-right: 1px solid #C1DAD7;
+ border-bottom: 1px solid #C1DAD7;
+ background: #fff;
+ font-size:11px;
+ padding: 6px 6px 6px 12px;
+ color: #4f6b72;
+}
+td.alt {
+ background: #F5FAFA;
+ color: #797268;
+}
+th.spec {
+ border-left: 1px solid #C1DAD7;
+ border-top: 0;
+ background: #fff url(images/bullet1.gif) no-repeat;
+ font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+th.specalt {
+ border-left: 1px solid #C1DAD7;
+ border-top: 0;
+ background: #f5fafa url(images/bullet2.gif) no-repeat;
+ font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+ color: #797268;
+}
+
+html>body td{ font-size:11px;}
+</style>
+<body>
+</br>
+<font>API接口文档</br>
+所有的返回数据都是Json格式.里面最少包含3部分:1.error(boole) 2.error_code(int) 3.message(str) 如果有返回的数据,还会有其他字段
+</font>
+<table id="mytable" cellspacing="0" summary="">
+<caption> </caption>
+  <tr>
+    <th scope="col" abbr="Configurations" >模块名称</th>
+    <th scope="col" abbr="Dual 1.8">功能名称</th>
+    <th scope="col" abbr="Dual 2">URI</th>
+    <th scope="col" abbr="Dual 2.5">提交方法</th>
+	<th scope="col" abbr="Dual 2.5">接受参数</th>
+	<th scope="col" abbr="Dual 2.5">返回参数</th>
+	<th scope="col" abbr="Dual 2.5">返回示例</th>
+	<th scope="col" abbr="Dual 2.5">完成状态</th>
+  </tr>
+  <tr>
+    <th scope="row" abbr="Model" class="spec">用户</th>
+    <td>注册</td>
+    <td>User.php</td>
+    <td>Post</td>
+	<td>action=signup</br>username(str)</br>password(str)</td>
+    <td>-</td>
+    <td>{error:false,error_code:0,message:"注册成功"}</td>
+	<td>已完成</td>
+  </tr>
+  <tr>
+    <th scope="row" abbr="G5 Processor" class="specalt">用户</th>
+    <td class="alt">登录</td>
+    <td class="alt">User.php</td>
+    <td class="alt">Post</td>
+	<td class="alt">action=logon</br>username(str)</br>password(str)</td>
+    <td class="alt">token</td>
+    <td class="alt">{error:false,error_code:0,message:"登陆成功,token:"9A4D46813A3F5E7EA6BADF0CFF706957"}</td>
+	<td class="alt">正在做</td>
+  </tr>
+  <tr>
+    <th scope="row" abbr="Frontside bus" class="spec">用户</th>
+    <td>注销</td>
+    <td>User.php</td>
+    <td>Get</td>
+	<td>action=logout</br>token(str)</td>
+    <td>-</td>
+    <td>{error:false,error_code:0,message:"注销成功"}</td>
+	<td>未完成</td>
+  </tr>
+  <tr>
+    <th scope="row" abbr="L2 Cache" class="specalt">rnamein</th>
+    <td class="alt">M9454LL/ALL</td>
+    <td class="alt">M9454LL/A</td>
+    <td class="alt">M9454LL/ALL/A</td>
+	<td class="alt">M9454LL/A</td>
+    <td class="alt">M9454LL/Al</td>
+    <td class="alt">M9454LL/A</td>
+	<td class="alt">M9454LL/A4</td>
+  </tr>
+</table>
+<br/></br></br>
+<font>错误代码参考文档</font>
+<table id="errorcode" cellspacing="0" summary="">
+<caption> </caption>
+  <tr>
+    <th scope="col" abbr="Configurations" >错误代码</th>
+    <th scope="col" abbr="Dual 1.8">错误信息</th>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>无错误</td>
+  </tr>
+  <tr>
+    <td class="alt">1</td>
+    <td class="alt">未知错误</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>写入数据失败(Mongodb_Writter Filed)</td>
+  </tr>
+  <tr>
+    <td class="alt">3</td>
+    <td class="alt">用户名占用</td>
+  </tr>
+      <td>4</td>
+    <td>提交数据为空</td>
+  </tr>
+  <tr>
+    <td class="alt">5</td>
+    <td class="alt"></td>
+  </tr>
+</table>
+</body>
+</html>
