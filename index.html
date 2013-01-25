@@ -15,18 +15,18 @@ a {
  color: #c75f3e;
 }
 #mytable {
- width: 900px;
+ width: 930px;
  padding: 0;
  margin: 0;
 }
 #errorcode {
- width: 900px;
+ width: 930px;
  padding: 0;
  margin: 0;
 }
 caption {
  padding: 0 0 5px 0;
- width: 700px; 
+ width: 930px; 
  font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
  text-align: right;
 }
@@ -92,6 +92,7 @@ html>body td{ font-size:11px;}
 	<th scope="col" abbr="Dual 2.5">返回参数</th>
 	<th scope="col" abbr="Dual 2.5">返回示例</th>
 	<th scope="col" abbr="Dual 2.5">完成状态</th>
+	<th scope="col" abbr="Dual 2.5">测试地址</th>
   </tr>
   <tr>
     <th scope="row" abbr="Model" class="spec">用户</th>
@@ -100,8 +101,9 @@ html>body td{ font-size:11px;}
     <td>Post</td>
 	<td>action=signup</br>username(str)</br>password(str)</td>
     <td>-</td>
-    <td>{error:false,error_code:0,message:"注册成功"}</td>
+    <td>{"error":false,"error_code":0,"message":"注册成功"}</td>
 	<td>已完成</td>
+	<td><a href="/debug/form-test-signup.html">测试</a></td>
   </tr>
   <tr>
     <th scope="row" abbr="G5 Processor" class="specalt">用户</th>
@@ -110,8 +112,9 @@ html>body td{ font-size:11px;}
     <td class="alt">Post</td>
 	<td class="alt">action=logon</br>username(str)</br>password(str)</td>
     <td class="alt">token</td>
-    <td class="alt">{error:false,error_code:0,message:"登陆成功,token:"9A4D46813A3F5E7EA6BADF0CFF706957"}</td>
+    <td class="alt">{"error":false,"error_code":0,"message":"登陆成功,"token":"9A4D46813A3F5E7EA6BADF0CFF706957"}</td>
 	<td class="alt">正在做</td>
+	<td class="alt"> </td>
   </tr>
   <tr>
     <th scope="row" abbr="Frontside bus" class="spec">用户</th>
@@ -122,6 +125,7 @@ html>body td{ font-size:11px;}
     <td>-</td>
     <td>{error:false,error_code:0,message:"注销成功"}</td>
 	<td>未完成</td>
+	<td></td>
   </tr>
   <tr>
     <th scope="row" abbr="L2 Cache" class="specalt">rnamein</th>
@@ -131,6 +135,7 @@ html>body td{ font-size:11px;}
 	<td class="alt">M9454LL/A</td>
     <td class="alt">M9454LL/Al</td>
     <td class="alt">M9454LL/A</td>
+	<td class="alt">M9454LL/A4</td>
 	<td class="alt">M9454LL/A4</td>
   </tr>
 </table>

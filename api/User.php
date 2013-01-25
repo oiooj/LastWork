@@ -2,7 +2,7 @@
 	//Just for User Module~
 	
 	session_start();
-	require_once(dirname(__FILE__) .'/include/functions.php');
+	require_once('../include/functions.php');
 
 	if("signup" == Str_filter($_POST['action'])){
 		User_Signup();
@@ -13,7 +13,7 @@
 	
 	//For User signup
 	function User_Signup(){
-		if($username = Str_filter($_POST['username']) && $password = Str_filter($_POST['password'])){
+		if(($username = Str_filter($_POST['username'])) && ($password = Str_filter($_POST['password']))){
 			if(null == Mongodb_Reader("todo_users",array("username" => $username),1)){
 				$user =  array("username" => $username,"password" => md5($password),"user_id" => md5($username),"user_class" => 0,"signup_datetime" =>  date("Y-m-d h:m:s"),"last_datetime" => "");
 				try{

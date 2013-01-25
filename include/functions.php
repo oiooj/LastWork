@@ -210,7 +210,8 @@
 	
 	//String Filter
 	function Str_filter($str){
-		if(trim($str) == ""){
+		$str = trim($str);
+		if($str == ""){
 			return false;
 		}
 		return $str;

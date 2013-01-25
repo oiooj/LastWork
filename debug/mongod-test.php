@@ -2,7 +2,7 @@
 	//Just for test here~
 
 
-	require_once(dirname(__FILE__) .'/include/functions.php');
+	require_once('../include/functions.php');
 
 	// $data = array("name" => "li","email" => "baidu2@qq.com","age" => 23);
 	// Mongodb_Writter("foo",$data);
