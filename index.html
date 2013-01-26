@@ -10,6 +10,7 @@ body {
  font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
  color: #4f6b72;
  background: #E6EAE9;
+ text-align:center;
 }
 a {
  color: #c75f3e;
@@ -17,16 +18,16 @@ a {
 #mytable {
  width: 930px;
  padding: 0;
- margin: 0;
+ margin:0 auto;
 }
 #errorcode {
- width: 930px;
+ width: 1020px;
  padding: 0;
- margin: 0;
+ margin:0 auto;
 }
 caption {
  padding: 0 0 5px 0;
- width: 930px; 
+ width: 700px; 
  font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
  text-align: right;
 }
@@ -78,9 +79,10 @@ html>body td{ font-size:11px;}
 </style>
 <body>
 </br>
-<font>API接口文档</br>
+<h1>API接口文档</h1>
 所有的返回数据都是Json格式.里面最少包含3部分:1.error(boole) 2.error_code(int) 3.message(str) 如果有返回的数据,还会有其他字段
 </font>
+<div>
 <table id="mytable" cellspacing="0" summary="">
 <caption> </caption>
   <tr>
@@ -152,7 +154,7 @@ html>body td{ font-size:11px;}
   </tr>
 </table>
 <br/></br></br>
-<font>错误代码参考文档</font>
+<h1>错误代码参考文档</h1>
 <table id="errorcode" cellspacing="0" summary="">
 <caption> </caption>
   <tr>
@@ -195,7 +197,7 @@ html>body td{ font-size:11px;}
     <td>注销失败</td>
   </tr>
 </table>
-<div style="margin-left:auto;margin-right:auto;">
+</br></br></br>
 <script src="http://s21.cnzz.com/stat.php?id=4987082&web_id=4987082&show=pic" language="JavaScript"></script>
 </div>
 </body>
