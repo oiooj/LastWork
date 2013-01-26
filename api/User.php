@@ -1,14 +1,13 @@
 ﻿<?php
-	//Just for User Module~
-	
-	session_start();
+	//Just for User Module~	
+	//session_start();
 	require_once('../include/functions.php');
 
 	if("signup" == Str_filter($_POST['action'])){
 		User_Signup();
 	}
-	else{
-		echo "";
+	if("logon" == Str_filter($_POST['action'])){
+		User_Logon();
 	}
 	
 	//For User signup
@@ -29,6 +28,34 @@
 			$res = Return_Error(true,4,"提交的数据为空");
 		}
 		echo $res;
+	}
+	
+	//For User logon
+	function User_logon(){
+		if(($username = Str_filter($_POST['username'])) && ($password = Str_filter($_POST['password'])) ){
+			if($user = Mongodb_Reader("todo_users",array("username" => $username),1)){
+				if(md5($password) == $user['password']){
+					$accesstoken = AccessToken_Setter($username);
+					$res = Return_Error(false,0,"登陆成功",array("token" => $accesstoken));
+				}else{
+					$res = Return_Error(true,6,"密码不正确");
+				}
+			}else{
+				$res = Return_Error(true,5,"该用户不存在");
+			}
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
+		echo $res;
+	}
+	
+	//For User logout
+	function User_logout(){
+		if($token = Str_filter($_POST['token'])){
+
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
 	}
 	
 	

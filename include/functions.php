@@ -39,7 +39,8 @@
 		$collection = $db ->$collection_name;
 		if($type == 1){
 			$key = Create_Key($collection_name.$condition);
-			if($data = Memcached_Getter($key)){
+			if($data = Memcached_Getter($key)){				
+				Cache_Timemap(true);
 				return $data;
 			}
 			$data = $collection->findOne($condition);
@@ -52,6 +53,7 @@
 
 		}
 		Close_Mongodb($mogo);
+		Cache_Timemap(false);
 		return $data;
 	}
 	
@@ -153,6 +155,7 @@
 			}
 			$m -> set ($accesstoken,$username,$SYS_CONFIG["ACCESS_TOKEN_TIME"]); //设置过期时间
 			Close_Memcached($m);
+			return $accesstoken;
 		}
 	}
 	
@@ -199,7 +202,15 @@
 		return round((Microtime_Float() - $time_start) * 1000);
 	}
 	
-	
+	function Cache_Timemap($is_cached){
+		global $SYS_CONFIG;
+		if($is_cached){
+			$status = "<!-- 已缓存，耗时：".GetExecuteTime($SYS_CONFIG["TIME"]["START"])." 毫秒，更新时间：".date("Y-m-d h:m:s").", IP:".$_SERVER['REMOTE_ADDR']."-->";
+		}else{
+			$status = "<!-- 未缓存，耗时：".GetExecuteTime($SYS_CONFIG["TIME"]["START"])." 毫秒，更新时间：".date("Y-m-d h:m:s").", IP:".$_SERVER['REMOTE_ADDR']."-->";
+		}
+		echo $status;
+	}
 	
 	///////////////////////////////////Utils/////////////////////////////////////////	
 	
@@ -218,8 +229,8 @@
 	}
 	
 	//Return json error result
-	function Return_Error($bool,$error_code,$message){
-		return json_encode(array("error" => $bool,"error_code" => $error_code,"message" => $message));
+	function Return_Error($bool,$error_code,$message,$data = array()){
+		return json_encode(array_merge(array("error" => $bool,"error_code" => $error_code,"message" => $message),$data));
 	}
 
 	//Send Email
