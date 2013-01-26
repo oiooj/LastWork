@@ -208,11 +208,15 @@
 	function Cache_Timemap($is_cached){
 		global $SYS_CONFIG;
 		if($is_cached){
-			$status = "<!-- 已缓存，耗时：".GetExecuteTime($SYS_CONFIG["TIME"]["START"])." 毫秒，更新时间：".date("Y-m-d h:m:s").", IP:".$_SERVER['REMOTE_ADDR']."-->";
+			$status = "<!-- 已缓存，耗时：".GetExecuteTime($SYS_CONFIG["TIME"]["START"])." 毫秒，更新时间：".Now().", IP:".$_SERVER['REMOTE_ADDR']."-->";
 		}else{
-			$status = "<!-- 未缓存，耗时：".GetExecuteTime($SYS_CONFIG["TIME"]["START"])." 毫秒，更新时间：".date("Y-m-d h:m:s").", IP:".$_SERVER['REMOTE_ADDR']."-->";
+			$status = "<!-- 未缓存，耗时：".GetExecuteTime($SYS_CONFIG["TIME"]["START"])." 毫秒，更新时间：".Now().", IP:".$_SERVER['REMOTE_ADDR']."-->";
 		}
 		echo $status;
+	}
+	
+	function Now(){
+		return date("Y-m-d H:i:s");
 	}
 	
 	///////////////////////////////////Utils/////////////////////////////////////////	

@@ -137,22 +137,46 @@ html>body td{ font-size:11px;}
 	<td class="alt">action=changepass</br>old_password(str)</br>new_password(str)</br>token(str)</td>
     <td class="alt">-</td>
     <td class="alt">{"error":false,"error_code":0,"message":"修改成功"}</td>
-	<td class="alt">正在做...</td>
+	<td class="alt">已完成</td>
+	<td class="alt"><a href="/debug/form-test-changepass.html">测试</a></td>
+  </tr>
+  <tr>
+   <th scope="row" abbr="Model" class="spec">列表</th>
+    <td>新建</td>
+    <td>List.php</td>
+    <td>Post</td>
+	<td>action=new</br>list_ame(str)</br>token(str)</td>
+    <td>-</td>
+    <td>{"error":false,"error_code":0,"message":"新建成功"}</td>
+	<td>未完成</td>
+	<td><a href="/debug/form-test-signup.html"></a></td>
+  </tr>
+  <tr>
+    <th scope="row" abbr="G5 Processor" class="specalt">列表</th>
+    <td class="alt">获取列表</td>
+    <td class="alt">List.php</td>
+    <td class="alt">Post</td>
+	<td class="alt">action=get</br>token(str)</td>
+    <td class="alt">lists:{}</td>
+    <td class="alt">{"error":false,"error_code":0,"message":"获取成功,"lists":{...}}</td>
+	<td class="alt">未完成</td>
 	<td class="alt"><a href="/debug/form-test-logon.html"></a></td>
   </tr>
-  
   <tr>
-    <th scope="row" abbr="L2 Cache" class="specalt">rnamein</th>
-    <td class="alt">M9454LL/ALL</td>
-    <td class="alt">M9454LL/A</td>
-    <td class="alt">M9454LL/ALL/A</td>
-	<td class="alt">M9454LL/A</td>
-    <td class="alt">M9454LL/Al</td>
-    <td class="alt">M9454LL/A</td>
-	<td class="alt">M9454LL/A4</td>
-	<td class="alt">M9454LL/A4</td>
+    <th scope="row" abbr="L2 Cache" class="specalt">modulen</th>	                                                
+    <td class="alt">FUNCTIONG</td>
+    <td class="alt">RESOURCEING</td>
+    <td class="alt">POSTORGETE</td>
+	<td class="alt">GETINGPARA</td>
+    <td class="alt">RETURNING</td>
+    <td class="alt">EX.</td>
+	<td class="alt">STATUSING</td>
+	<td class="alt">DEBUGADDR</td>
   </tr>
 </table>
+
+
+
 <br/></br></br>
 <h1>错误代码参考文档</h1>
 <table id="errorcode" cellspacing="0" summary="">
