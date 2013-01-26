@@ -184,8 +184,11 @@
 
 	function AccessToken_Remover($accesstoken){
 		if($m = Get_Memcached("AccessToken_SERVER")){
-			$m -> delete($accesstoken);
+			$res = $m -> delete($accesstoken);
 			Close_Memcached($m);
+			return $res;
+		}else{
+			return false;
 		}
 	}
 	

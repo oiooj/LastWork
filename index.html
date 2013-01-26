@@ -123,10 +123,22 @@ html>body td{ font-size:11px;}
     <td>Get</td>
 	<td>action=logout</br>token(str)</td>
     <td>-</td>
-    <td>{error:false,error_code:0,message:"注销成功"}</td>
-	<td>正在做..</td>
-	<td></td>
+    <td>{"error":false,"error_code":0,"message":"注销成功"}</td>
+	<td>已完成</td>
+	<td><a href="/api/User.php?action=logout&token=">测试</a></td>
   </tr>
+  <tr>
+    <th scope="row" abbr="G5 Processor" class="specalt">用户</th>
+    <td class="alt">修改密码</td>
+    <td class="alt">User.php</td>
+    <td class="alt">Post</td>
+	<td class="alt">action=changepass</br>old_password(str)</br>new_password(str)</br>token(str)</td>
+    <td class="alt">-</td>
+    <td class="alt">{"error":false,"error_code":0,"message":"修改成功"}</td>
+	<td class="alt">正在做...</td>
+	<td class="alt"><a href="/debug/form-test-logon.html"></a></td>
+  </tr>
+  
   <tr>
     <th scope="row" abbr="L2 Cache" class="specalt">rnamein</th>
     <td class="alt">M9454LL/ALL</td>
@@ -174,6 +186,17 @@ html>body td{ font-size:11px;}
       <td>6</td>
     <td>密码不正确</td>
   </tr>
+  <tr>
+    <td class="alt">7</td>
+    <td class="alt">token无效或登录超时</td>
+  </tr>
+    </tr>
+      <td>8</td>
+    <td>注销失败</td>
+  </tr>
 </table>
+<div style="margin-left:auto;margin-right:auto;">
+<script src="http://s21.cnzz.com/stat.php?id=4987082&web_id=4987082&show=pic" language="JavaScript"></script>
+</div>
 </body>
 </html>

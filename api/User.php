@@ -3,12 +3,19 @@
 	//session_start();
 	require_once('../include/functions.php');
 
-	if("signup" == Str_filter($_POST['action'])){
+	if( isset($_GET["action"]) &&  ("logout" == Str_filter($_GET['action'])) ){
+	User_Logout();
+	exit(0);
+	}
+	
+	if(isset($_POST["action"]) &&  ("signup" == Str_filter($_POST['action'])) ){
 		User_Signup();
 	}
-	if("logon" == Str_filter($_POST['action'])){
+	
+	if(isset($_POST["action"]) && ("logon" == Str_filter($_POST['action'])) ){
 		User_Logon();
 	}
+	
 	
 	//For User signup
 	function User_Signup(){
@@ -51,11 +58,21 @@
 	
 	//For User logout
 	function User_logout(){
-		if($token = Str_filter($_POST['token'])){
-
+		if($token = Str_filter($_GET['token'])){
+			$res = AccessToken_Remover($token);
+			if($res == 16){
+				$res = Return_Error(true,8,"注销失败");
+			}
+			if($res == true){
+				$res = Return_Error(false,0,"注销成功");
+			}
+			if($res == false){
+				$res = Return_Error(true,7,"token无效或登录超时");
+			}
 		}else{
 			$res = Return_Error(true,4,"提交的数据为空");
 		}
+		echo $res;
 	}
 	
 	
