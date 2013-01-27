@@ -105,7 +105,7 @@ html>body td{ font-size:11px;}
     <td>-</td>
     <td>{"error":false,"error_code":0,"message":"注册成功"}</td>
 	<td>已完成</td>
-	<td><a href="/debug/form-test-signup.html">测试</a></td>
+	<td><a href="/debug/user-signup.html">测试</a></td>
   </tr>
   <tr>
     <th scope="row" abbr="G5 Processor" class="specalt">用户</th>
@@ -116,7 +116,7 @@ html>body td{ font-size:11px;}
     <td class="alt">token</td>
     <td class="alt">{"error":false,"error_code":0,"message":"登陆成功,"token":"9A4D46813A3F5E7EA6BADF0CFF706957"}</td>
 	<td class="alt">已完成</td>
-	<td class="alt"><a href="/debug/form-test-logon.html">测试</a></td>
+	<td class="alt"><a href="/debug/user-logon.html">测试</a></td>
   </tr>
   <tr>
     <th scope="row" abbr="Frontside bus" class="spec">用户</th>
@@ -138,7 +138,7 @@ html>body td{ font-size:11px;}
     <td class="alt">-</td>
     <td class="alt">{"error":false,"error_code":0,"message":"修改成功"}</td>
 	<td class="alt">已完成</td>
-	<td class="alt"><a href="/debug/form-test-changepass.html">测试</a></td>
+	<td class="alt"><a href="/debug/user-changepass.html">测试</a></td>
   </tr>
   <tr>
    <th scope="row" abbr="Model" class="spec">列表</th>
@@ -148,8 +148,30 @@ html>body td{ font-size:11px;}
 	<td>action=new</br>list_ame(str)</br>token(str)</td>
     <td>-</td>
     <td>{"error":false,"error_code":0,"message":"新建成功"}</td>
-	<td>未完成</td>
-	<td><a href="/debug/form-test-signup.html"></a></td>
+	<td>已完成</td>
+	<td><a href="/debug/list-new.html">测试</a></td>
+  </tr>
+  <tr>
+    <th scope="row" abbr="G5 Processor" class="specalt">列表</th>
+    <td class="alt">删除</td>
+    <td class="alt">List.php</td>
+    <td class="alt">Post</td>
+	<td class="alt">action=del</br>list_id(str)</br>token(str)</td>
+    <td class="alt">-</td>
+    <td class="alt">{"error":false,"error_code":0,"message":"删除成功"}</td>
+	<td class="alt">正在做...</td>
+	<td class="alt"><a href="/debug/form-test-logon.html"></a></td>
+  </tr>
+  <tr>
+    <th scope="row" abbr="G5 Processor" class="specalt">列表</th>
+    <td class="alt">修改名称</td>
+    <td class="alt">List.php</td>
+    <td class="alt">Post</td>
+	<td class="alt">action=changename</br>list_name_new(str)</br>list_id(str)</br>token(str)</td>
+    <td class="alt">-</td>
+    <td class="alt">{"error":false,"error_code":0,"message":"修改成功"}</td>
+	<td class="alt">未完成</td>
+	<td class="alt"><a href="/debug/form-test-logon.html"></a></td>
   </tr>
   <tr>
     <th scope="row" abbr="G5 Processor" class="specalt">列表</th>
