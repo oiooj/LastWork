@@ -235,6 +235,17 @@
 		return $str;
 	}
 	
+	//Delete A Key From Array
+	function Delete_From_Array($arr,$del){
+		foreach ($arr as $k=>$v){
+			if($v ==	$del){
+				unset($arr[$k]);
+				return $arr;
+			}
+		}
+		return false;
+	}
+	
 	//Return json error result
 	function Return_Error($bool,$error_code,$message,$data = array()){
 		return json_encode(array_merge(array("error" => $bool,"error_code" => $error_code,"message" => $message),$data));

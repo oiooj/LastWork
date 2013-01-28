@@ -4,23 +4,26 @@
 	require_once('../include/functions.php');
 
 	if( isset($_GET["action"]) &&  ("logout" == Str_filter($_GET['action'])) ){
-	User_Logout();
-	exit(0);
+		User_Logout();
+		exit(0);
 	}
 	
 	if(isset($_POST["action"]) &&  ("signup" == Str_filter($_POST['action'])) ){
 		User_Signup();
+		exit(0);
 	}
 	
 	if(isset($_POST["action"]) && ("logon" == Str_filter($_POST['action'])) ){
 		User_Logon();
+		exit(0);
 	}
 	
 	if(isset($_POST["action"]) && ("changepass" == Str_filter($_POST['action'])) ){
 		User_Changepass();
+		exit(0);
 	}
 	
-	
+	echo Return_Error(true,1000,"fuck u~");
 	//For User signup
 	function User_Signup(){
 		if(($username = Str_filter($_POST['username'])) && ($password = Str_filter($_POST['password']))){

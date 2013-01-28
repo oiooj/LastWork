@@ -10,16 +10,19 @@
 	
 	if(isset($_POST["action"]) &&  ("new" == Str_filter($_POST['action'])) ){
 		List_New();
+		exit(0);
 	}
 	
-	// if(isset($_POST["action"]) && ("logon" == Str_filter($_POST['action'])) ){
-		// User_Logon();
-	// }
+	if(isset($_POST["action"]) && ("del" == Str_filter($_POST['action'])) ){
+		List_Delete();
+		exit(0);
+	}
 	
 	// if(isset($_POST["action"]) && ("changepass" == Str_filter($_POST['action'])) ){
 		// User_Changepass();
 	// }
 	
+	echo Return_Error(true,1000,"fuck u~");
 	
 	//For List New
 	function List_New(){
@@ -41,6 +44,38 @@
 					$res = Return_Error(false,0,"创建成功");
 				} catch(MongoException $e) {
 					$res = Return_Error(true,2,"创建失败");
+				}
+			}else{
+				$res = Return_Error(true,7,"token无效或登录超时");
+			}
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
+		echo $res;
+	}
+	
+	//For Delete List
+	function List_Delete(){
+		if(($list_id = Str_filter($_POST['list_id'])) && ($token = Str_filter($_POST['token']))){
+			if($username = AccessToken_Getter($token)){
+				if(null != Mongodb_Reader("todo_lists",array("list_id" => $list_id),1)){
+					if(null == Mongodb_Reader("relation_list_event",array("list_id" => $list_id),1)){
+						Mongodb_Remover("todo_lists",array("list_id" => $list_id));
+						if($user_lists = Mongodb_Reader("relation_user_list",array("user_id" => md5($username)),1)){
+							$lists_id = $user_lists["lists_id"];
+							$lists_index = $user_lists["lists_index"] - 1;
+							$lists_id = Delete_From_Array($lists_id,$list_id);
+							Mongodb_Updater("relation_user_list",array("user_id" => md5($username)),array("lists_id" => $lists_id,"lists_index" => $lists_index));
+							$res = Return_Error(false,0,"删除成功");
+						}
+						else{
+							$res = Return_Error(true,9,"数据依赖关系不完整");
+						}
+					}else{
+						$res = Return_Error(true,11,"列表有数据 请先删除列表中的事务");
+					}
+				}else{
+					$res = Return_Error(true,10,"列表不存在");
 				}
 			}else{
 				$res = Return_Error(true,7,"token无效或登录超时");
