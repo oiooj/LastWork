@@ -18,9 +18,10 @@
 		exit(0);
 	}
 	
-	// if(isset($_POST["action"]) && ("changepass" == Str_filter($_POST['action'])) ){
-		// User_Changepass();
-	// }
+	if(isset($_POST["action"]) && ("changename" == Str_filter($_POST['action'])) ){
+		List_Changename();
+		exit(0);
+	}
 	
 	echo Return_Error(true,1000,"fuck u~");
 	
@@ -125,27 +126,23 @@
 		// echo $res;
 	// }
 	
-	//For User Change Password
-	// function User_Changepass(){
-		// if( ($token = Str_filter($_POST['token'])) && ($old_password = Str_filter($_POST['old_password'])) && ($new_password = Str_filter($_POST['new_password'])) ){
-			// if($username = AccessToken_Getter($token)){
-				// if($user = Mongodb_Reader("todo_users",array("username" => $username),1)){				
-					// if(md5($old_password) == $user['password']){
-						// Mongodb_Updater("todo_users",array("username" => $username),array("password" => md5($new_password)));
-						// $res = Return_Error(false,0,"修改成功");
-					// }else{
-						// $res = Return_Error(true,6,"密码不正确");
-					// }
-				// }else{
-					// $res = Return_Error(true,5,"该用户不存在");
-				// }
-			// }else{
-				// $res = Return_Error(true,7,"token无效或登录超时");
-			// }
-		// }else{
-			// $res = Return_Error(true,4,"提交的数据为空");
-		// }
-		// echo $res;
-	// }
+	//For List	Change Name
+	function List_Changename(){
+		if( ($token = Str_filter($_POST['token'])) && ($list_name_new = Str_filter($_POST['list_name_new'])) && ($list_id = Str_filter($_POST['list_id'])) ){
+			if($username = AccessToken_Getter($token)){
+				if($list = Mongodb_Reader("todo_lists",array("list_id" => $list_id),1)){				
+						Mongodb_Updater("todo_lists",array("list_id" => $list_id),array("list_name" => $list_name_new));
+						$res = Return_Error(false,0,"修改成功");
+				}else{
+					$res = Return_Error(true,10,"该列表不存在");
+				}
+			}else{
+				$res = Return_Error(true,7,"token无效或登录超时");
+			}
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
+		echo $res;
+	}
 	
 ?>
