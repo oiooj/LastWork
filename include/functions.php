@@ -251,6 +251,10 @@
 		return json_encode(array_merge(array("error" => $bool,"error_code" => $error_code,"message" => $message),$data));
 	}
 	
+	function Return_Lists($bool,$error_code,$message,$data = array()){
+		return json_encode(array("error" => $bool,"error_code" => $error_code,"message" => $message,"lists" => $data));
+	}
+	
 	function Create_Uid($username){
 		return strtoupper(md5(uniqid(rand(-2147483640, 2147483640), true).time().microtime().$username));
 	}

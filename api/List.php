@@ -23,6 +23,11 @@
 		exit(0);
 	}
 	
+	if(isset($_POST["action"]) && ("get" == Str_filter($_POST['action'])) ){
+		List_Get();
+		exit(0);
+	}
+	
 	echo Return_Error(true,1000,"fuck u~");
 	
 	//For List New
@@ -30,14 +35,14 @@
 		if(($list_name = Str_filter($_POST['list_name'])) && ($token = Str_filter($_POST['token']))){
 			if($username = AccessToken_Getter($token)){
 				$list_id = Create_Uid($list_name);
-				$list =  array("list_name" => $list_name,"list_id" => $list_id,"list_total" => 0,"list_class" => 0,"list_created_time" =>  Now(),"last_datetime" => Now());
+				$list =  array("list_name" => $list_name,"list_id" => $list_id,"event_total" => 0,"list_class" => 0,"list_created_time" =>  Now(),"last_datetime" => Now());
 				if($user_lists = Mongodb_Reader("relation_user_list",array("user_id" => md5($username)),1)){
 					$lists_id = $user_lists["lists_id"];
 					$lists_index = $user_lists["lists_index"] + 1;
 					array_push($lists_id,$list_id);
 					Mongodb_Updater("relation_user_list",array("user_id" => md5($username)),array("lists_id" => $lists_id,"lists_index" => $lists_index));
 				}else{
-					$user_lists_new = array("user_id" => md5($username),"lists_id" => array($list_id),"lists_index" =>0);
+					$user_lists_new = array("user_id" => md5($username),"lists_id" => array("1" => $list_id),"lists_index" =>0);
 					Mongodb_Writter("relation_user_list",$user_lists_new);
 				}
 				try{
@@ -87,44 +92,35 @@
 		echo $res;
 	}
 	
-	//For User logon
-	// function User_logon(){
-		// if(($username = Str_filter($_POST['username'])) && ($password = Str_filter($_POST['password'])) ){
-			// if($user = Mongodb_Reader("todo_users",array("username" => $username),1)){
-				// if(md5($password) == $user['password']){
-					// $accesstoken = AccessToken_Setter($username);
-					// Mongodb_Updater("todo_users",array("username" => $username),array("last_datetime" =>  Now()));
-					// $res = Return_Error(false,0,"登陆成功",array("token" => $accesstoken));
-				// }else{
-					// $res = Return_Error(true,6,"密码不正确");
-				// }
-			// }else{
-				// $res = Return_Error(true,5,"该用户不存在");
-			// }
-		// }else{
-			// $res = Return_Error(true,4,"提交的数据为空");
-		// }
-		// echo $res;
-	// }
-	
-	//For User logout
-	// function User_logout(){
-		// if($token = Str_filter($_GET['token'])){
-			// $res = AccessToken_Remover($token);
-			// if($res == 16){
-				// $res = Return_Error(true,8,"注销失败");
-			// }
-			// if($res == true){
-				// $res = Return_Error(false,0,"注销成功");
-			// }
-			// if($res == false){
-				// $res = Return_Error(true,7,"token无效或登录超时");
-			// }
-		// }else{
-			// $res = Return_Error(true,4,"提交的数据为空");
-		// }
-		// echo $res;
-	// }
+    //For Get Lists
+	function List_Get(){
+		if($token = Str_filter($_POST['token'])){
+			if($username = AccessToken_Getter($token)){
+				if($user_lists = Mongodb_Reader("relation_user_list",array("user_id" => md5($username)),1)){
+					$return_list = Array();
+					$num_list = 0;
+					foreach($user_lists["lists_id"] as$key=> $list_id){
+						if($list = Mongodb_Reader("todo_lists",array("list_id" => $list_id),1)){
+							$return_list[$num_list]['list_id'] = $list['list_id'];
+							$return_list[$num_list]['list_name'] = $list['list_name'];
+							$return_list[$num_list]['event_total'] = $list['event_total'];
+							$num_list++;
+						}else{
+							$res = Return_Error(true,10,"列表不存在");
+						}
+					}
+					$res = Return_Lists(false,0,"获取成功",$return_list);
+				}else{
+					$res = Return_Error(false,0,"该用户无列表",array()); //这个不算是错误
+				}
+			}else{
+				$res = Return_Error(true,7,"token无效或登录超时");
+			}			
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
+		echo $res;
+	}
 	
 	//For List	Change Name
 	function List_Changename(){
