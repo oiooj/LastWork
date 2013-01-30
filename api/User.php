@@ -31,6 +31,12 @@
 				$user =  array("username" => $username,"password" => md5($password),"user_id" => md5($username),"user_class" => 0,"signup_datetime" =>  Now(),"last_datetime" => "");
 				try{
 					Mongodb_Writter("todo_users",$user);
+					
+					$list_id = Create_Uid("默认列表");
+					$list =  array("list_name" => "默认列表","list_id" => $list_id,"event_total" => 0,"list_class" => 0,"list_created_time" =>  Now(),"last_datetime" => Now());
+					Add_relation_user_list($username,$list_id);
+					Mongodb_Writter("todo_lists",$list);
+					
 					$res = Return_Error(false,0,"注册成功");
 				} catch(MongoException $e) {
 					$res = Return_Error(true,2,"注册失败");

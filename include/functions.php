@@ -249,11 +249,7 @@
 	//Return json error result
 	function Return_Error($bool,$error_code,$message,$data = array()){
 		return json_encode(array_merge(array("error" => $bool,"error_code" => $error_code,"message" => $message),$data));
-	}
-	
-	function Return_Lists($bool,$error_code,$message,$data = array()){
-		return json_encode(array("error" => $bool,"error_code" => $error_code,"message" => $message,"lists" => $data));
-	}
+	}	
 	
 	function Create_Uid($username){
 		return strtoupper(md5(uniqid(rand(-2147483640, 2147483640), true).time().microtime().$username));
@@ -295,4 +291,64 @@
 		}
 	}
 
+	///////////////////////////////////List Utils/////////////////////////////////////
+	
+	function Add_share_list_user($username,$list_id){
+		if($list_users = Mongodb_Reader("share_list_user",array("list_id" => $list_id),1)){
+			$users_id = $list_users["users_id"];
+			$users_index = $list_users["users_index"] + 1;
+			array_push($users_id,md5($username));
+			Mongodb_Updater("share_list_user",array("list_id" => $list_id),array("users_id" => $users_id,"users_index" => $users_index));
+		}else{
+			$list_users_new = array("list_id" => $list_id,"users_id" => array("1" => md5($username)),"users_index" =>0);
+			Mongodb_Writter("share_list_user",$list_users_new);
+		}
+	}
+	
+	function Remove_share_list_user($username,$list_id){
+		if($list_users = Mongodb_Reader("share_list_user",array("list_id" => $list_id),1)){
+			$users_id = $list_users["users_id"];
+			$users_index = $list_users["users_index"] - 1;
+			$users_id = Delete_From_Array($users_id,md5($username));
+			Mongodb_Updater("share_list_user",array("list_id" => $list_id),array("users_id" => $users_id,"users_index" => $users_index));
+			return true;
+		}
+		else{
+			return false;
+		}	
+	}
+	
+	function Add_relation_user_list($username,$list_id){
+		if($user_lists = Mongodb_Reader("relation_user_list",array("user_id" => md5($username)),1)){
+			$lists_id = $user_lists["lists_id"];
+			$lists_index = $user_lists["lists_index"] + 1;
+			array_push($lists_id,$list_id);
+			Mongodb_Updater("relation_user_list",array("user_id" => md5($username)),array("lists_id" => $lists_id,"lists_index" => $lists_index));
+		}else{
+			$user_lists_new = array("user_id" => md5($username),"lists_id" => array("1" => $list_id),"lists_index" =>0);
+			Mongodb_Writter("relation_user_list",$user_lists_new);
+		}
+	}
+	
+	function Remove_relation_user_list($username,$list_id){
+		if($user_lists = Mongodb_Reader("relation_user_list",array("user_id" => md5($username)),1)){
+			$lists_id = $user_lists["lists_id"];
+			if(count($lists_id)  <= 1){
+				Mongodb_Remover("relation_user_list",array("user_id" => md5($username)));
+				return true;
+			}else{
+				$lists_index = $user_lists["lists_index"] - 1;
+				$lists_id = Delete_From_Array($lists_id,$list_id);
+				Mongodb_Updater("relation_user_list",array("user_id" => md5($username)),array("lists_id" => $lists_id,"lists_index" => $lists_index));
+				return true;
+			}
+		}
+		else{
+			return false;
+		}	
+	}
+	
+	function Return_Lists($bool,$error_code,$message,$data = array()){
+		return json_encode(array("error" => $bool,"error_code" => $error_code,"message" => $message,"lists" => $data));
+	}
 ?>
