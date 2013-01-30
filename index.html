@@ -141,6 +141,17 @@ html>body td{ font-size:11px;}
 	<td class="alt"><a href="/debug/user-changepass.html">测试</a></td>
   </tr>
   <tr>
+    <th scope="row" abbr="Frontside bus" class="spec">用户</th>
+    <td>获取用户名</td>
+    <td>User.php</td>
+    <td>Get</td>
+	<td>action=getusername</br>user_id(str)</br>token(str)</td>
+    <td>username</td>
+    <td>﻿﻿﻿{"error":false,"error_code":0,"message":"\u83b7\u53d6\u6210\u529f","username":"sb@qq.com"}</td>
+	<td>已完成</td>
+	<td><a href="/api/User.php?action=getusername&token=0BE02214776363C2C051F6876CD2440A&user_id=12d4a278679f806447d70c5fc0ebf990">测试</a></td>
+  </tr>
+  <tr>
    <th scope="row" abbr="Model" class="spec">列表</th>
     <td>新建</td>
     <td>List.php</td>
@@ -181,7 +192,7 @@ html>body td{ font-size:11px;}
 	<td class="alt">action=get</br>token(str)</td>
     <td class="alt">lists:{}</td>
     <td class="alt">{"error":false,"error_code":0,"message":"获取成功,"lists":{...}}</td>
-	<td class="alt"> 已完成(需改进)</td>
+	<td class="alt"> 已完成</td>
 	<td class="alt"><a href="/debug/list-get.html">测试</a></td>
   </tr>
    <tr>
@@ -192,8 +203,8 @@ html>body td{ font-size:11px;}
 	<td>action=changeorder</br>order(str)</br>token(str)</td>
     <td>-</td>
     <td>{"error":false,"error_code":0,"message":"修改成功"}</td>
-	<td>未完成</td>
-	<td><a href="/debug/list-changename.html"></a></td>
+	<td>已完成</td>
+	<td><a href="/debug/list-changeorder.html">测试</a></td>
   </tr>
     <tr>
     <th scope="row" abbr="G5 Processor" class="specalt">列表</th>
@@ -205,6 +216,50 @@ html>body td{ font-size:11px;}
     <td class="alt">{"error":false,"error_code":0,"message":"共享成功"}</td>
 	<td class="alt"> 已完成</td>
 	<td class="alt"><a href="/debug/list-share.html">测试</a></td>
+  </tr>
+   <tr>
+    <th scope="row" abbr="G5 Processor" class="specalt">事务</th>
+    <td>新建</td>
+    <td>Event.php</td>
+    <td>Post</td>
+	<td>action=new</br>event_name(str)</br>list_id(str)</br>token(str)</td>
+    <td>-</td>
+    <td>{"error":false,"error_code":0,"message":"新建成功"}</td>
+	<td>未完成</td>
+	<td><a href="/debug/list-changeorder.html"></a></td>
+  </tr>
+    <tr>
+    <th scope="row" abbr="G5 Processor" class="specalt">事务</th>
+    <td class="alt">修改</td>
+    <td class="alt">Event.php</td>
+    <td class="alt">Post</td>
+	<td class="alt">action=update</br>event_id(str)</br>content(str)</br>token(str)</td>
+    <td class="alt">-</td>
+    <td class="alt">{"error":false,"error_code":0,"message":"修改成功"}</td>
+	<td class="alt">未完成</td>
+	<td class="alt"><a href="/debug/list-share.html"></a></td>
+  </tr>
+   <tr>
+    <th scope="row" abbr="G5 Processor" class="specalt">事务</th>
+    <td>删除</td>
+    <td>Event.php</td>
+    <td>Post</td>
+	<td>action=del</br>list_id(str)</br>event_id(str)</br>token(str)</td>
+    <td>-</td>
+    <td>{"error":false,"error_code":0,"message":"删除成功"}</td>
+	<td>未完成</td>
+	<td><a href="/debug/list-changeorder.html"></a></td>
+  </tr>
+    <tr>
+    <th scope="row" abbr="G5 Processor" class="specalt">事务</th>
+    <td class="alt">获取事务</td>
+    <td class="alt">Event.php</td>
+    <td class="alt">Post</td>
+	<td class="alt">action=get</br>list_id(str)</br>token(str)</td>
+    <td class="alt">-</td>
+    <td class="alt">{"error":false,"error_code":0,"message":"获取成功","evets":{...}}</td>
+	<td class="alt">未完成</td>
+	<td class="alt"><a href="/debug/list-share.html"></a></td>
   </tr>
   <tr>
     <th scope="row" abbr="L2 Cache" class="specalt">modulen</th>	                                                
@@ -279,6 +334,14 @@ html>body td{ font-size:11px;}
   </tr>
   <tr>
       <td>12</td>
+    <td>不能将列表共享给自己</td>
+  </tr>
+   <tr>
+    <td class="alt">13</td>
+    <td class="alt">列表数量有误</td>
+  </tr>
+  <tr>
+      <td>14</td>
     <td></td>
   </tr>
 </table>

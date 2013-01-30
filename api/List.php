@@ -29,6 +29,11 @@
 		exit(0);
 	}
 	
+	if(isset($_POST["action"]) && ("changeorder" == Str_filter($_POST['action'])) ){
+		List_Order();
+		exit(0);
+	}
+
 	echo Return_Error(true,1000,"fuck u~");
 	
 	
@@ -76,7 +81,6 @@
 							if(count($list_users["users_id"])  <= 1){
 								Mongodb_Remover("share_list_user",array("list_id" => $list_id));
 								Mongodb_Remover("todo_lists",array("list_id" => $list_id));
-								//Mongodb_Updater("todo_lists",array("list_id" => $list_id),array("list_class" => 0));
 							}else{
 								Remove_share_list_user($username,$list_id);
 							}
@@ -113,6 +117,15 @@
 							$return_list[$num_list]['list_id'] = $list['list_id'];
 							$return_list[$num_list]['list_name'] = $list['list_name'];
 							$return_list[$num_list]['event_total'] = $list['event_total'];
+							if($list['list_class'] == 1){
+								$return_list[$num_list]['shared'] = true;
+								if(($list_users = Mongodb_Reader("share_list_user",array("list_id" => $list_id),1)) != null){
+									$return_list[$num_list]['shared_users'] = $list_users['users_id'];
+								}						
+							}else{
+								$return_list[$num_list]['shared'] = false;
+							}
+							
 							$num_list++;
 						}else{
 							$res = Return_Error(true,10,"列表不存在");
@@ -153,14 +166,40 @@
 	function List_Share(){
 		if( ($token = Str_filter($_POST['token'])) && ($to_username = Str_filter($_POST['to_username'])) && ($list_id = Str_filter($_POST['list_id'])) ){
 			if($username = AccessToken_Getter($token)){
-				if($list = Mongodb_Reader("todo_lists",array("list_id" => $list_id),1)){				
-						Mongodb_Updater("todo_lists",array("list_id" => $list_id),array("list_class" => 1));
-						Add_relation_user_list($to_username,$list_id);
-						Add_share_list_user($username,$list_id);
-						Add_share_list_user($to_username,$list_id);
-						$res = Return_Error(false,0,"共享成功");
+				if($username != $to_username){
+					if($list = Mongodb_Reader("todo_lists",array("list_id" => $list_id),1)){				
+							Mongodb_Updater("todo_lists",array("list_id" => $list_id),array("list_class" => 1));
+							Add_relation_user_list($to_username,$list_id);
+							Add_share_list_user($username,$list_id);
+							Add_share_list_user($to_username,$list_id);
+							$res = Return_Error(false,0,"共享成功");
+					}else{
+						$res = Return_Error(true,10,"该列表不存在");
+					}
 				}else{
-					$res = Return_Error(true,10,"该列表不存在");
+					$res = Return_Error(true,12,"列表不能共享给自己");
+				}
+			}else{
+				$res = Return_Error(true,7,"token无效或登录超时");
+			}
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
+		echo $res;
+	}
+	
+	function List_Order(){
+		if(($new_order = Str_filter($_POST['new_order'])) && ($token = Str_filter($_POST['token']))){
+			if($username = AccessToken_Getter($token)){
+				if($user_lists = Mongodb_Reader("relation_user_list",array("user_id" => md5($username)),1)){
+					if(($lists_id = change_order($new_order,$user_lists["lists_id"])) != false ){
+						Mongodb_Updater("relation_user_list",array("user_id" => md5($username)),array("lists_id" => $lists_id));
+						$res = Return_Error(true,0,"修改成功");
+					}else{
+						$res = Return_Error(true,13,"列表数量有误");
+					}
+				}else{
+					$res = Return_Error(true,1,"该用户无列表");
 				}
 			}else{
 				$res = Return_Error(true,7,"token无效或登录超时");

@@ -246,6 +246,23 @@
 		return false;
 	}
 	
+	//Order Array  fomat: 3-1-2
+	function change_order($new_order,$array){
+		$order = explode("-",$new_order);
+		if(count($array) == count($order)){
+			$ordered = array();
+			$num = 1;
+			foreach ($order as $k=>$v){
+				$ordered["$num"] = $array[$v];
+				$num++;
+				
+			}
+			return $ordered;
+		}else{
+			return false;
+		}
+	}
+	
 	//Return json error result
 	function Return_Error($bool,$error_code,$message,$data = array()){
 		return json_encode(array_merge(array("error" => $bool,"error_code" => $error_code,"message" => $message),$data));
@@ -254,6 +271,11 @@
 	function Create_Uid($username){
 		return strtoupper(md5(uniqid(rand(-2147483640, 2147483640), true).time().microtime().$username));
 	}
+	
+	//Is Email
+	function isEmail($str){
+		return is_string($str)&&preg_match('/^[_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,4}$/',$str);
+	}	
 	
 	//Send Email
 	function Email_Sender($email,$title,$content,$bak_content = ""){

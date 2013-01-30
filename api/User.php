@@ -22,11 +22,16 @@
 		User_Changepass();
 		exit(0);
 	}
+	if(isset($_GET["action"]) && ("getusername" == Str_filter($_GET['action'])) ){
+			User_GetbyID();
+		exit(0);
+	}
 	
 	echo Return_Error(true,1000,"fuck u~");
+	
 	//For User signup
 	function User_Signup(){
-		if(($username = Str_filter($_POST['username'])) && ($password = Str_filter($_POST['password']))){
+		if(($username = isEmail(Str_filter($_POST['username']))) && ($password = Str_filter($_POST['password']))){
 			if(null == Mongodb_Reader("todo_users",array("username" => $username),1)){
 				$user =  array("username" => $username,"password" => md5($password),"user_id" => md5($username),"user_class" => 0,"signup_datetime" =>  Now(),"last_datetime" => "");
 				try{
@@ -112,4 +117,20 @@
 		echo $res;
 	}
 	
+	function User_GetbyID(){
+		if(($user_id = Str_filter($_GET['user_id'])) && ($token = Str_filter($_GET['token'])) ){
+			if($username = AccessToken_Getter($token)){
+				if($user = Mongodb_Reader("todo_users",array("user_id" => $user_id),1)){
+					$res = Return_Error(false,0,"获取成功",array("username" => $user["username"]));
+				}else{
+					$res = Return_Error(true,5,"该用户不存在");
+				}
+			}else{
+				$res = Return_Error(true,7,"token无效或登录超时");
+			}
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
+		echo $res;
+	}
 ?>
