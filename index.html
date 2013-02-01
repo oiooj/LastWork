@@ -108,7 +108,7 @@ html>body td{ font-size:11px;}
 	<td><a href="/debug/user-signup.html">测试</a></td>
   </tr>
   <tr>
-    <th scope="row" abbr="G5 Processor" class="specalt">用户</th>
+    <th scope="row" abbr="G5 Processor" class="spec">用户</th>
     <td class="alt">登录</td>
     <td class="alt">User.php</td>
     <td class="alt">Post</td>
@@ -130,7 +130,7 @@ html>body td{ font-size:11px;}
 	<td><a href="/api/User.php?action=logout&token=">测试</a></td>
   </tr>
   <tr>
-    <th scope="row" abbr="G5 Processor" class="specalt">用户</th>
+    <th scope="row" abbr="G5 Processor" class="spec">用户</th>
     <td class="alt">修改密码</td>
     <td class="alt">User.php</td>
     <td class="alt">Post</td>
@@ -152,7 +152,7 @@ html>body td{ font-size:11px;}
 	<td><a href="/api/User.php?action=getusername&token=0BE02214776363C2C051F6876CD2440A&user_id=12d4a278679f806447d70c5fc0ebf990">测试</a></td>
   </tr>
   <tr>
-   <th scope="row" abbr="Model" class="spec">列表</th>
+   <th scope="row" abbr="Model" class="specalt">列表</th>
     <td>新建</td>
     <td>List.php</td>
     <td>Post</td>
@@ -218,7 +218,7 @@ html>body td{ font-size:11px;}
 	<td class="alt"><a href="/debug/list-share.html">测试</a></td>
   </tr>
    <tr>
-    <th scope="row" abbr="G5 Processor" class="specalt">事务</th>
+    <th scope="row" abbr="G5 Processor" class="spec">事务</th>
     <td>新建</td>
     <td>Event.php</td>
     <td>Post</td>
@@ -229,37 +229,59 @@ html>body td{ font-size:11px;}
 	<td><a href="/debug/event-new.html">测试</a></td>
   </tr>
     <tr>
-    <th scope="row" abbr="G5 Processor" class="specalt">事务</th>
-    <td class="alt">修改</td>
+    <th scope="row" abbr="G5 Processor" class="spec">事务</th>
+    <td class="alt">修改内容</td>
     <td class="alt">Event.php</td>
     <td class="alt">Post</td>
-	<td class="alt">action=update</br>event_id(str)</br>content(str)</br>token(str)</td>
+	<td class="alt">action=updatecontent</br>event_id(str)</br>event_content(str)</br>token(str)</td>
     <td class="alt">-</td>
     <td class="alt">{"error":false,"error_code":0,"message":"修改成功"}</td>
-	<td class="alt">未完成</td>
-	<td class="alt"><a href="/debug/list-share.html"></a></td>
+	<td class="alt">已完成</td>
+	<td class="alt"><a href="/debug/event-update-content.html">测试</a></td>
   </tr>
    <tr>
-    <th scope="row" abbr="G5 Processor" class="specalt">事务</th>
+    <th scope="row" abbr="G5 Processor" class="spec">事务</th>
     <td>删除</td>
     <td>Event.php</td>
     <td>Post</td>
 	<td>action=del</br>list_id(str)</br>event_id(str)</br>token(str)</td>
     <td>-</td>
     <td>{"error":false,"error_code":0,"message":"删除成功"}</td>
-	<td>未完成</td>
-	<td><a href="/debug/list-changeorder.html"></a></td>
+	<td>已完成</td>
+	<td><a href="/debug/event-del.html">测试</a></td>
   </tr>
     <tr>
-    <th scope="row" abbr="G5 Processor" class="specalt">事务</th>
+    <th scope="row" abbr="G5 Processor" class="spec">事务</th>
     <td class="alt">获取事务</td>
     <td class="alt">Event.php</td>
     <td class="alt">Post</td>
 	<td class="alt">action=get</br>list_id(str)</br>token(str)</td>
     <td class="alt">-</td>
-    <td class="alt">{"error":false,"error_code":0,"message":"获取成功","evets":{...}}</td>
+    <td class="alt">{"error":false,"error_code":0,"message":"获取成功","events":{...}}</td>
+	<td class="alt">已完成</td>
+	<td class="alt"><a href="/debug/event-get.html">测试</a></td>
+  </tr>
+   <tr>
+    <th scope="row" abbr="G5 Processor" class="spec">事务</th>
+    <td>更新日期</td>
+    <td>Event.php</td>
+    <td>Post</td>
+	<td>action=updatedate</br>event_id(str)</br>date(str)</br>token(str)</td>
+    <td>-</td>
+    <td>{"error":false,"error_code":0,"message":"更新成功"}</td>
+	<td>未完成</td>
+	<td><a href="/debug/event-update-date.html"></a></td>
+  </tr>
+    <tr>
+    <th scope="row" abbr="G5 Processor" class="spec">事务</th>
+    <td class="alt">更新时间</td>
+    <td class="alt">Event.php</td>
+    <td class="alt">Post</td>
+	<td class="alt">action=updatetime</br>event_id(str)</br>time(str)</br>token(str)</td>
+    <td class="alt">-</td>
+    <td class="alt">{"error":false,"error_code":0,"message":"更新成功"}</td>
 	<td class="alt">未完成</td>
-	<td class="alt"><a href="/debug/list-share.html"></a></td>
+	<td class="alt"><a href="/debug/event-update-time.html"></a></td>
   </tr>
   <tr>
     <th scope="row" abbr="L2 Cache" class="specalt">modulen</th>	                                                
@@ -342,7 +364,7 @@ html>body td{ font-size:11px;}
   </tr>
   <tr>
       <td>14</td>
-    <td></td>
+    <td>该事务不存在</td>
   </tr>
 </table>
 </br></br></br>

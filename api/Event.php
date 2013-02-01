@@ -9,20 +9,20 @@
 		exit(0);
 	}
 	
-	// if(isset($_POST["action"]) && ("del" == Str_filter($_POST['action'])) ){
-		// List_Delete();
-		// exit(0);
-	// }
+	if(isset($_POST["action"]) && ("del" == Str_filter($_POST['action'])) ){
+		Event_Delete();
+		exit(0);
+	}
 	
-	// if(isset($_POST["action"]) && ("changename" == Str_filter($_POST['action'])) ){
-		// List_Changename();
-		// exit(0);
-	// }
+	if(isset($_POST["action"]) && ("updatecontent" == Str_filter($_POST['action'])) ){
+		Event_Update_Content();
+		exit(0);
+	}
 	
-	// if(isset($_POST["action"]) && ("get" == Str_filter($_POST['action'])) ){
-		// List_Get();
-		// exit(0);
-	// }
+	if(isset($_POST["action"]) && ("get" == Str_filter($_POST['action'])) ){
+		Event_Get();
+		exit(0);
+	}
 	
 	// if(isset($_POST["action"]) && ("share" == Str_filter($_POST['action'])) ){
 		// List_Share();
@@ -60,109 +60,88 @@
 		echo $res;
 	}
 	
-	//For Delete List
-	// function List_Delete(){
-		// if(($list_id = Str_filter($_POST['list_id'])) && ($token = Str_filter($_POST['token']))){
-			// if($username = AccessToken_Getter($token)){
-				// if(($list = Mongodb_Reader("todo_lists",array("list_id" => $list_id),1)) != null){
-					// if($list["list_class"] == 0){
-						// if(null == Mongodb_Reader("relation_list_event",array("list_id" => $list_id),1)){
-							// Mongodb_Remover("todo_lists",array("list_id" => $list_id));
-							// if(Remove_relation_user_list($username,$list_id)){
-								// $res = Return_Error(false,0,"删除成功");
-							// }else{
-								// $res = Return_Error(true,9,"数据依赖关系不完整");
-							// }
-						// }else{
-							// $res = Return_Error(true,11,"列表有数据 请先删除列表中的事务");
-						// }
-					// }
-					// if($list["list_class"] == 1){
-						// if(($list_users = Mongodb_Reader("share_list_user",array("list_id" => $list_id),1)) != null){
-							// if(count($list_users["users_id"])  <= 1){
-								// Mongodb_Remover("share_list_user",array("list_id" => $list_id));
-								// Mongodb_Remover("todo_lists",array("list_id" => $list_id));
-							// }else{
-								// Remove_share_list_user($username,$list_id);
-							// }
-							// if(Remove_relation_user_list($username,$list_id)){
-								// $res = Return_Error(false,0,"删除成功");
-							// }else{
-								// $res = Return_Error(true,9,"数据依赖关系不完整");
-							// }
-						// }else{
-							// $res = Return_Error(true,11,"列表有数据 请先删除列表中的事务");
-						// }
-					// }										
-				// }else{
-					// $res = Return_Error(true,10,"列表不存在");
-				// }
-			// }else{
-				// $res = Return_Error(true,7,"token无效或登录超时");
-			// }
-		// }else{
-			// $res = Return_Error(true,4,"提交的数据为空");
-		// }
-		// echo $res;
-	// }
+	//For Event Delete
+	function Event_Delete(){
+		if(($event_id = Str_filter($_POST['event_id'])) && ($list_id = Str_filter($_POST['list_id'])) && ($token = Str_filter($_POST['token']))){
+			if($username = AccessToken_Getter($token)){
+				if(($list = Mongodb_Reader("todo_events",array("event_id" => $event_id),1)) != null){
+					if(null == Mongodb_Reader("relation_event_note",array("event_id" => $event_id),1)){
+						Mongodb_Remover("todo_events",array("event_id" => $event_id));
+						if(Remove_relation_list_event($list_id,$event_id)){
+							Remove_event_total($list_id);
+							$res = Return_Error(false,0,"删除成功");
+						}else{
+							$res = Return_Error(true,9,"数据依赖关系不完整");
+						}
+					}else{
+						$res = Return_Error(true,11,"事务中有数据 请先删除列表中的笔记");
+					}
+				}else{
+					$res = Return_Error(true,14,"事务不存在");
+				}
+			}else{
+				$res = Return_Error(true,7,"token无效或登录超时");
+			}
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
+		echo $res;
+	}
 	
     //For Get Lists
-	// function List_Get(){
-		// if($token = Str_filter($_POST['token'])){
-			// if($username = AccessToken_Getter($token)){
-				// if($user_lists = Mongodb_Reader("relation_user_list",array("user_id" => md5($username)),1)){
-					// $return_list = Array();
-					// $num_list = 0;
-					// foreach($user_lists["lists_id"] as$key=> $list_id){
-						// if($list = Mongodb_Reader("todo_lists",array("list_id" => $list_id),1)){
-							// $return_list[$num_list]['list_id'] = $list['list_id'];
-							// $return_list[$num_list]['list_name'] = $list['list_name'];
-							// $return_list[$num_list]['event_total'] = $list['event_total'];
-							// if($list['list_class'] == 1){
-								// $return_list[$num_list]['shared'] = true;
-								// if(($list_users = Mongodb_Reader("share_list_user",array("list_id" => $list_id),1)) != null){
-									// $return_list[$num_list]['shared_users'] = $list_users['users_id'];
-								// }						
-							// }else{
-								// $return_list[$num_list]['shared'] = false;
-							// }
+	function Event_Get(){
+		if(($list_id = Str_filter($_POST['list_id'])) && ($token = Str_filter($_POST['token']))){
+			if($username = AccessToken_Getter($token)){
+				if($list_events = Mongodb_Reader("relation_list_event",array("list_id" => $list_id),1)){
+					$return_event = Array();
+					$num_event = 0;
+					foreach($list_events["events_id"] as$key=> $event_id){
+						if($event = Mongodb_Reader("todo_events",array("event_id" => $event_id),1)){
+							$return_event[$num_event]['event_id'] = $event['event_id'];
+							$return_event[$num_event]['event_content'] = $event['event_content'];
+							$return_event[$num_event]['note_total'] = $event['note_total'];
+							$return_event[$num_event]['event_created_time'] = $event['event_created_time'];
+							$return_event[$num_event]['event_starred'] = $event['event_starred'];
+							$return_event[$num_event]['event_completed'] = $event['event_completed'];
+							$return_event[$num_event]['event_due_date'] = $event['event_due_date'];
+							$return_event[$num_event]['event_due_time'] = $event['event_due_time'];
 							
-							// $num_list++;
-						// }else{
-							// $res = Return_Error(true,10,"列表不存在");
-						// }
-					// }
-					// $res = Return_Lists(false,0,"获取成功",$return_list);
-				// }else{
-					// $res = Return_Error(false,0,"该用户无列表",array()); //这个不算是错误
-				// }
-			// }else{
-				// $res = Return_Error(true,7,"token无效或登录超时");
-			// }			
-		// }else{
-			// $res = Return_Error(true,4,"提交的数据为空");
-		// }
-		// echo $res;
-	// }
+							$num_event++;
+						}else{
+							$res = Return_Error(true,14,"事务不存在");
+						}
+					}
+					$res = Return_Events(false,0,"获取成功",$return_event);
+				}else{
+					$res = Return_Error(false,0,"该列表无事务",array()); //这个不算是错误
+				}
+			}else{
+				$res = Return_Error(true,7,"token无效或登录超时");
+			}			
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
+		echo $res;
+	}
 	
-	//For List	Change Name
-	// function List_Changename(){
-		// if( ($token = Str_filter($_POST['token'])) && ($list_name_new = Str_filter($_POST['list_name_new'])) && ($list_id = Str_filter($_POST['list_id'])) ){
-			// if($username = AccessToken_Getter($token)){
-				// if($list = Mongodb_Reader("todo_lists",array("list_id" => $list_id),1)){				
-						// Mongodb_Updater("todo_lists",array("list_id" => $list_id),array("list_name" => $list_name_new));
-						// $res = Return_Error(false,0,"修改成功");
-				// }else{
-					// $res = Return_Error(true,10,"该列表不存在");
-				// }
-			// }else{
-				// $res = Return_Error(true,7,"token无效或登录超时");
-			// }
-		// }else{
-			// $res = Return_Error(true,4,"提交的数据为空");
-		// }
-		// echo $res;
-	// }
+	//For Event Update
+	function Event_Update_Content(){
+		if( ($token = Str_filter($_POST['token'])) && ($event_id = Str_filter($_POST['event_id'])) && ($event_content = Str_filter($_POST['event_content']))){
+			if($username = AccessToken_Getter($token)){
+				if($event = Mongodb_Reader("todo_events",array("event_id" => $event_id),1)){			
+						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_content" => $event_content));
+						$res = Return_Error(false,0,"修改成功");
+				}else{
+					$res = Return_Error(true,14,"该事务不存在");
+				}
+			}else{
+				$res = Return_Error(true,7,"token无效或登录超时");
+			}
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
+		echo $res;
+	}
 	
 	// function List_Share(){
 		// if( ($token = Str_filter($_POST['token'])) && ($to_username = Str_filter($_POST['to_username'])) && ($list_id = Str_filter($_POST['list_id'])) ){
@@ -253,6 +232,10 @@
 			$total = $list["event_total"] - 1;
 			Mongodb_Updater("todo_lists",array("list_id" => $list_id),array("event_total" => $total));
 		}
+	}
+	
+	function Return_Events($bool,$error_code,$message,$data = array()){
+		return json_encode(array("error" => $bool,"error_code" => $error_code,"message" => $message,"events" => $data));
 	}
 	
 ?>

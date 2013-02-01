@@ -274,7 +274,10 @@
 	
 	//Is Email
 	function isEmail($str){
-		return is_string($str)&&preg_match('/^[_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,4}$/',$str);
+		if( is_string($str)&&preg_match('/^[_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,4}$/',$str) )
+			return $str;
+		else
+		    return false;
 	}	
 	
 	//Send Email

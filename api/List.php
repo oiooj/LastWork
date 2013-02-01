@@ -117,6 +117,7 @@
 							$return_list[$num_list]['list_id'] = $list['list_id'];
 							$return_list[$num_list]['list_name'] = $list['list_name'];
 							$return_list[$num_list]['event_total'] = $list['event_total'];
+							$return_list[$num_list]['list_created_time'] = $list['list_created_time'];
 							if($list['list_class'] == 1){
 								$return_list[$num_list]['shared'] = true;
 								if(($list_users = Mongodb_Reader("share_list_user",array("list_id" => $list_id),1)) != null){
