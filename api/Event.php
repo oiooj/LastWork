@@ -24,16 +24,32 @@
 		exit(0);
 	}
 	
-	// if(isset($_POST["action"]) && ("share" == Str_filter($_POST['action'])) ){
-		// List_Share();
-		// exit(0);
-	// }
-	
-	// if(isset($_POST["action"]) && ("changeorder" == Str_filter($_POST['action'])) ){
-		// List_Order();
-		// exit(0);
-	// }
+	if(isset($_POST["action"]) && ("changedate" == Str_filter($_POST['action'])) ){
+		Event_changeDate();
+		exit(0);
+	}
 
+	if(isset($_POST["action"]) && ("changetime" == Str_filter($_POST['action'])) ){
+		Event_changeTime();
+		exit(0);
+	}
+	
+	if(isset($_POST["action"]) && ("changeorder" == Str_filter($_POST['action'])) ){
+		Event_Order();
+		exit(0);
+	}
+	
+	if(isset($_POST["action"]) && ("completed" == Str_filter($_POST['action'])) ){
+		Event_Completed();
+		exit(0);
+	}
+	
+	if(isset($_POST["action"]) && ("starrted" == Str_filter($_POST['action'])) ){
+		Event_Starrted();
+		exit(0);
+	}
+	
+	
 	echo Return_Error(true,1000,"fuck u~");
 	
 	
@@ -42,7 +58,7 @@
 		if(($list_id = Str_filter($_POST['list_id'])) && ($event_content = Str_filter($_POST['event_content'])) && ($token = Str_filter($_POST['token']))){
 			if($username = AccessToken_Getter($token)){
 				$event_id = Create_Uid($event_content);
-				$event =  array("event_content" => $event_content,"event_id" => $event_id,"note_total" => 0,"event_class" => 0,"event_created_time" =>  Now(),"event_starred" =>0,"event_completed" =>0,"event_due_date" =>"","event_due_time" =>"");
+				$event =  array("event_content" => $event_content,"event_id" => $event_id,"note_total" => 0,"event_class" => 0,"event_created_time" =>  Now(),"event_starred" =>false,"event_completed" =>false,"event_due_date" =>"","event_due_time" =>"");
 				Add_relation_list_event($list_id,$event_id);
 				try{
 					Mongodb_Writter("todo_events",$event);
@@ -143,52 +159,109 @@
 		echo $res;
 	}
 	
-	// function List_Share(){
-		// if( ($token = Str_filter($_POST['token'])) && ($to_username = Str_filter($_POST['to_username'])) && ($list_id = Str_filter($_POST['list_id'])) ){
-			// if($username = AccessToken_Getter($token)){
-				// if($username != $to_username){
-					// if($list = Mongodb_Reader("todo_lists",array("list_id" => $list_id),1)){				
-							// Mongodb_Updater("todo_lists",array("list_id" => $list_id),array("list_class" => 1));
-							// Add_relation_user_list($to_username,$list_id);
-							// Add_share_list_user($username,$list_id);
-							// Add_share_list_user($to_username,$list_id);
-							// $res = Return_Error(false,0,"共享成功");
-					// }else{
-						// $res = Return_Error(true,10,"该列表不存在");
-					// }
-				// }else{
-					// $res = Return_Error(true,12,"列表不能共享给自己");
-				// }
-			// }else{
-				// $res = Return_Error(true,7,"token无效或登录超时");
-			// }
-		// }else{
-			// $res = Return_Error(true,4,"提交的数据为空");
-		// }
-		// echo $res;
-	// }
+	function Event_changeTime(){
+		if( ($token = Str_filter($_POST['token'])) && ($event_id = Str_filter($_POST['event_id'])) && ($event_time = Str_filter($_POST['event_time']))){
+			if($username = AccessToken_Getter($token)){
+				if($event = Mongodb_Reader("todo_events",array("event_id" => $event_id),1)){			
+						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_due_time" => $event_time));
+						$res = Return_Error(false,0,"修改成功");
+				}else{
+					$res = Return_Error(true,14,"该事务不存在");
+				}
+			}else{
+				$res = Return_Error(true,7,"token无效或登录超时");
+			}
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
+		echo $res;
+	}
 	
-	// function List_Order(){
-		// if(($new_order = Str_filter($_POST['new_order'])) && ($token = Str_filter($_POST['token']))){
-			// if($username = AccessToken_Getter($token)){
-				// if($user_lists = Mongodb_Reader("relation_user_list",array("user_id" => md5($username)),1)){
-					// if(($lists_id = change_order($new_order,$user_lists["lists_id"])) != false ){
-						// Mongodb_Updater("relation_user_list",array("user_id" => md5($username)),array("lists_id" => $lists_id));
-						// $res = Return_Error(true,0,"修改成功");
-					// }else{
-						// $res = Return_Error(true,13,"列表数量有误");
-					// }
-				// }else{
-					// $res = Return_Error(true,1,"该用户无列表");
-				// }
-			// }else{
-				// $res = Return_Error(true,7,"token无效或登录超时");
-			// }
-		// }else{
-			// $res = Return_Error(true,4,"提交的数据为空");
-		// }
-		// echo $res;
-	// }
+	function Event_changeDate(){
+		if( ($token = Str_filter($_POST['token'])) && ($event_id = Str_filter($_POST['event_id'])) && ($event_date = Str_filter($_POST['event_date']))){
+			if($username = AccessToken_Getter($token)){
+				if($event = Mongodb_Reader("todo_events",array("event_id" => $event_id),1)){			
+						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_due_date" => $event_date));
+						$res = Return_Error(false,0,"修改成功");
+				}else{
+					$res = Return_Error(true,14,"该事务不存在");
+				}
+			}else{
+				$res = Return_Error(true,7,"token无效或登录超时");
+			}
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
+		echo $res;
+	}
+	
+	function Event_Completed(){
+		if( ($token = Str_filter($_POST['token'])) && ($event_id = Str_filter($_POST['event_id'])) ){
+			if($username = AccessToken_Getter($token)){
+				if($event = Mongodb_Reader("todo_events",array("event_id" => $event_id),1)){	
+						if($event['event_completed']){
+							$completed = false;
+						}else{
+							$completed = true;
+						}
+						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_completed" => $completed));
+						$res = Return_Error(false,0,"修改成功");
+				}else{
+					$res = Return_Error(true,14,"该事务不存在");
+				}
+			}else{
+				$res = Return_Error(true,7,"token无效或登录超时");
+			}
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
+		echo $res;
+	}
+	
+	function Event_Starrted(){
+		if( ($token = Str_filter($_POST['token'])) && ($event_id = Str_filter($_POST['event_id'])) ){
+			if($username = AccessToken_Getter($token)){
+				if($event = Mongodb_Reader("todo_events",array("event_id" => $event_id),1)){	
+						if($event['event_starred']){
+							$starrted = false;
+						}else{
+							$starrted = true;
+						}
+						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_starred" => $starrted));
+						$res = Return_Error(false,0,"修改成功");
+				}else{
+					$res = Return_Error(true,14,"该事务不存在");
+				}
+			}else{
+				$res = Return_Error(true,7,"token无效或登录超时");
+			}
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
+		echo $res;
+	}
+	
+	function Event_Order(){
+		if(($new_order = Str_filter($_POST['new_order'])) && ($token = Str_filter($_POST['token'])) && ($list_id = Str_filter($_POST['list_id'])) ){
+			if($username = AccessToken_Getter($token)){
+				if($list_events = Mongodb_Reader("relation_list_event",array("list_id" => $list_id),1)){
+					if(($events_id = change_order($new_order,$list_events["events_id"])) != false ){
+						Mongodb_Updater("relation_list_event",array("list_id" => $list_id),array("events_id" => $events_id));
+						$res = Return_Error(true,0,"修改成功");
+					}else{
+						$res = Return_Error(true,15,"事务数量有误");
+					}
+				}else{
+					$res = Return_Error(true,1,"该用户无事务");
+				}
+			}else{
+				$res = Return_Error(true,7,"token无效或登录超时");
+			}
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
+		echo $res;
+	}
 	
 	function Add_relation_list_event($list_id,$event_id){
 		if($list_events = Mongodb_Reader("relation_list_event",array("list_id" => $list_id),1)){

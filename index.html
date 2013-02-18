@@ -266,23 +266,71 @@ html>body td{ font-size:11px;}
     <td>更新日期</td>
     <td>Event.php</td>
     <td>Post</td>
-	<td>action=updatedate</br>event_id(str)</br>date(str)</br>token(str)</td>
+	<td>action=changedate</br>event_id(str)</br>event_date(str)</br>token(str)</td>
     <td>-</td>
     <td>{"error":false,"error_code":0,"message":"更新成功"}</td>
-	<td>未完成</td>
-	<td><a href="/debug/event-update-date.html"></a></td>
+	<td>已完成</td>
+	<td><a href="/debug/event-changedate.html">测试</a></td>
   </tr>
     <tr>
     <th scope="row" abbr="G5 Processor" class="spec">事务</th>
     <td class="alt">更新时间</td>
     <td class="alt">Event.php</td>
     <td class="alt">Post</td>
-	<td class="alt">action=updatetime</br>event_id(str)</br>time(str)</br>token(str)</td>
+	<td class="alt">action=changetime</br>event_id(str)</br>event_time(str)</br>token(str)</td>
     <td class="alt">-</td>
     <td class="alt">{"error":false,"error_code":0,"message":"更新成功"}</td>
-	<td class="alt">未完成</td>
-	<td class="alt"><a href="/debug/event-update-time.html"></a></td>
+	<td class="alt">已完成</td>
+	<td class="alt"><a href="/debug/event-changetime.html">测试</a></td>
+  </tr> 
+   <tr>
+    <th scope="row" abbr="G5 Processor" class="spec">事务</th>
+    <td>更新完成状态</td>
+    <td>Event.php</td>
+    <td>Post</td>
+	<td>action=completed</br>event_id(str)</br>token(str)</td>
+    <td>-</td>
+    <td>{"error":false,"error_code":0,"message":"更新成功"}</td>
+	<td>已完成</td>
+	<td><a href="/debug/event-completed.html">测试</a></td>
   </tr>
+    <tr>
+    <th scope="row" abbr="G5 Processor" class="spec">事务</th>
+    <td class="alt">更新标星状态</td>
+    <td class="alt">Event.php</td>
+    <td class="alt">Post</td>
+	<td class="alt">action=starrted</br>event_id(str)</br>token(str)</td>
+    <td class="alt">-</td>
+    <td class="alt">{"error":false,"error_code":0,"message":"更新成功"}</td>
+	<td class="alt">已完成</td>
+	<td class="alt"><a href="/debug/event-starrted.html">测试</a></td>
+  </tr>
+  
+  
+   <tr>
+    <th scope="row" abbr="G5 Processor" class="spec">事务</th>
+    <td>修改顺序</td>
+    <td>Event.php</td>
+    <td>Post</td>
+	<td>action=changeorder</br>new_order(str)</br>list_id(str)</br>token(str)</td>
+    <td>-</td>
+    <td>{"error":false,"error_code":0,"message":"修改成功"}</td>
+	<td>已完成</td>
+	<td><a href="/debug/event-changeorder.html">测试</a></td>
+  </tr>
+
+    <tr>
+    <th scope="row" abbr="G5 Processor" class="specalt">笔记</th>
+    <td class="alt">新建</td>
+    <td class="alt">Note.php</td>
+    <td class="alt">Post</td>
+	<td class="alt">action=new</br>-</br>-</br>token(str)</td>
+    <td class="alt">-</td>
+    <td class="alt">{"error":false,"error_code":0,"message":"新建成功"}</td>
+	<td class="alt">未完成</td>
+	<td class="alt"><a href="/debug/note-new.html"></a></td>
+  </tr>
+
   <tr>
     <th scope="row" abbr="L2 Cache" class="specalt">modulen</th>	                                                
     <td class="alt">FUNCTIONG</td>
@@ -365,6 +413,14 @@ html>body td{ font-size:11px;}
   <tr>
       <td>14</td>
     <td>该事务不存在</td>
+  </tr>
+   <tr>
+    <td class="alt">15</td>
+    <td class="alt">事务数量有误</td>
+  </tr>
+  <tr>
+      <td>16</td>
+    <td></td>
   </tr>
 </table>
 </br></br></br>
