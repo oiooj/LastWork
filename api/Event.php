@@ -50,7 +50,7 @@
 	}
 	
 	
-	echo Return_Error(true,1000,"fuck u~");
+	echo Return_Error(true,1000,"Para Error");
 	
 	
 	//For Event New

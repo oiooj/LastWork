@@ -13,7 +13,7 @@
 		exit(0);
 	}
 	
-	if(isset($_POST["action"]) && ("logon" == Str_filter($_POST['action'])) ){
+	if(isset($_POST["action"]) && ("login" == Str_filter($_POST['action'])) ){
 		User_Logon();
 		exit(0);
 	}
@@ -27,7 +27,7 @@
 		exit(0);
 	}
 	
-	echo Return_Error(true,1000,"fuck u~");
+	echo Return_Error(true,1000,"Para Error");
 	
 	//For User signup
 	function User_Signup(){
