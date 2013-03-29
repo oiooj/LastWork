@@ -46,7 +46,7 @@
 				Add_relation_user_list($username,$list_id);
 				try{
 					Mongodb_Writter("todo_lists",$list);
-					$res = Return_Error(false,0,"创建成功");
+					$res = Return_Error(false,0,"创建成功",array("list_id" => $list_id));
 				} catch(MongoException $e) {
 					$res = Return_Error(true,2,"创建失败");
 				}
@@ -68,7 +68,7 @@
 						if(null == Mongodb_Reader("relation_list_event",array("list_id" => $list_id),1)){
 							Mongodb_Remover("todo_lists",array("list_id" => $list_id));
 							if(Remove_relation_user_list($username,$list_id)){
-								$res = Return_Error(false,0,"删除成功");
+								$res = Return_Error(false,0,"删除成功",array("list_id" => $list_id));
 							}else{
 								$res = Return_Error(true,9,"数据依赖关系不完整");
 							}
@@ -85,7 +85,7 @@
 								Remove_share_list_user($username,$list_id);
 							}
 							if(Remove_relation_user_list($username,$list_id)){
-								$res = Return_Error(false,0,"删除成功");
+								$res = Return_Error(false,0,"删除成功",array("list_id" => $list_id));
 							}else{
 								$res = Return_Error(true,9,"数据依赖关系不完整");
 							}
@@ -151,7 +151,7 @@
 			if($username = AccessToken_Getter($token)){
 				if($list = Mongodb_Reader("todo_lists",array("list_id" => $list_id),1)){				
 						Mongodb_Updater("todo_lists",array("list_id" => $list_id),array("list_name" => $list_name_new));
-						$res = Return_Error(false,0,"修改成功");
+						$res = Return_Error(false,0,"修改成功",array("list_id" => $list_id));
 				}else{
 					$res = Return_Error(true,10,"该列表不存在");
 				}
@@ -173,7 +173,7 @@
 							Add_relation_user_list($to_username,$list_id);
 							Add_share_list_user($username,$list_id);
 							Add_share_list_user($to_username,$list_id);
-							$res = Return_Error(false,0,"共享成功");
+							$res = Return_Error(false,0,"共享成功",array("list_id" => $list_id,"to_username" => $to_username));
 					}else{
 						$res = Return_Error(true,10,"该列表不存在");
 					}
@@ -195,7 +195,7 @@
 				if($user_lists = Mongodb_Reader("relation_user_list",array("user_id" => md5($username)),1)){
 					if(($lists_id = change_order($new_order,$user_lists["lists_id"])) != false ){
 						Mongodb_Updater("relation_user_list",array("user_id" => md5($username)),array("lists_id" => $lists_id));
-						$res = Return_Error(true,0,"修改成功");
+						$res = Return_Error(true,0,"修改成功",array("new_order" => $new_order));
 					}else{
 						$res = Return_Error(true,13,"列表数量有误");
 					}

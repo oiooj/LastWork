@@ -42,7 +42,7 @@
 					Add_relation_user_list($username,$list_id);
 					Mongodb_Writter("todo_lists",$list);
 					
-					$res = Return_Error(false,0,"注册成功");
+					$res = Return_Error(false,0,"注册成功",array("user_id" => md5($username)));
 				} catch(MongoException $e) {
 					$res = Return_Error(true,2,"注册失败");
 				}
@@ -83,7 +83,7 @@
 				$res = Return_Error(true,8,"注销失败");
 			}
 			if($res == true){
-				$res = Return_Error(false,0,"注销成功");
+				$res = Return_Error(false,0,"注销成功",array("username" => $res));
 			}
 			if($res == false){
 				$res = Return_Error(true,7,"token无效或登录超时");
@@ -101,7 +101,7 @@
 				if($user = Mongodb_Reader("todo_users",array("username" => $username),1)){				
 					if(md5($old_password) == $user['password']){
 						Mongodb_Updater("todo_users",array("username" => $username),array("password" => md5($new_password)));
-						$res = Return_Error(false,0,"修改成功");
+						$res = Return_Error(false,0,"修改成功",array("username" => $username));
 					}else{
 						$res = Return_Error(true,6,"密码不正确");
 					}

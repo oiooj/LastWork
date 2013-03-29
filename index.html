@@ -1,7 +1,7 @@
 ﻿<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>API Doc</title>
+<title>API Doc Beta</title>
 <link href="styles.css" rel="stylesheet" type="text/css" />
 </head>
 <style type="text/css">
@@ -16,12 +16,12 @@ a {
  color: #c75f3e;
 }
 #mytable {
- width: 930px;
+ width: 1020px;
  padding: 0;
  margin:0 auto;
 }
 #errorcode {
- width: 1020px;
+ width: 1150px;
  padding: 0;
  margin:0 auto;
 }
@@ -80,7 +80,7 @@ html>body td{ font-size:11px;}
 <body>
 </br>
 <h1>API接口文档</h1>
-所有的返回数据都是Json格式.里面最少包含3部分:1.error(boole) 2.error_code(int) 3.message(str) 如果有返回的数据,还会有其他字段
+所有的返回数据都是Json格式.里面最少包含3部分:1.error(boole) 2.error_code(int) 3.message(str) 如果有返回的数据,还会有其他字段 4.文档仅供参考 以Demo为准
 </font>
 <div>
 <table id="mytable" cellspacing="0" summary="">
@@ -92,7 +92,7 @@ html>body td{ font-size:11px;}
     <th scope="col" abbr="Dual 2.5">提交方法</th>
 	<th scope="col" abbr="Dual 2.5">接受参数</th>
 	<th scope="col" abbr="Dual 2.5">返回参数</th>
-	<th scope="col" abbr="Dual 2.5">返回示例</th>
+	<th scope="col" abbr="Dual 2.5">返回示例（待更新）</th>
 	<th scope="col" abbr="Dual 2.5">完成状态</th>
 	<th scope="col" abbr="Dual 2.5">测试地址</th>
   </tr>
@@ -102,7 +102,7 @@ html>body td{ font-size:11px;}
     <td>User.php</td>
     <td>Post</td>
 	<td>action=signup</br>username(str)</br>password(str)</td>
-    <td>-</td>
+    <td>user_id 用户ID</td>
     <td>{"error":false,"error_code":0,"message":"注册成功"}</td>
 	<td>已完成</td>
 	<td><a href="/api/debug/user-signup.html">测试</a></td>
@@ -113,7 +113,7 @@ html>body td{ font-size:11px;}
     <td class="alt">User.php</td>
     <td class="alt">Post</td>
 	<td class="alt">action=login</br>username(str)</br>password(str)</td>
-    <td class="alt">token</td>
+    <td class="alt">token 令牌</td>
     <td class="alt">{"error":false,"error_code":0,"message":"登陆成功,"token":"9A4D46813A3F5E7EA6BADF0CFF706957"}</td>
 	<td class="alt">已完成</td>
 	<td class="alt"><a href="/api/debug/user-login.html">测试</a></td>
@@ -124,7 +124,7 @@ html>body td{ font-size:11px;}
     <td>User.php</td>
     <td>Get</td>
 	<td>action=logout</br>token(str)</td>
-    <td>-</td>
+    <td>username 用户名</td>
     <td>{"error":false,"error_code":0,"message":"注销成功"}</td>
 	<td>已完成</td>
 	<td><a href="/api/api/User.php?action=logout&token=">测试</a></td>
@@ -135,7 +135,7 @@ html>body td{ font-size:11px;}
     <td class="alt">User.php</td>
     <td class="alt">Post</td>
 	<td class="alt">action=changepass</br>old_password(str)</br>new_password(str)</br>token(str)</td>
-    <td class="alt">-</td>
+    <td class="alt">username 用户名</td>
     <td class="alt">{"error":false,"error_code":0,"message":"修改成功"}</td>
 	<td class="alt">已完成</td>
 	<td class="alt"><a href="/api/debug/user-changepass.html">测试</a></td>
@@ -146,7 +146,7 @@ html>body td{ font-size:11px;}
     <td>User.php</td>
     <td>Get</td>
 	<td>action=getusername</br>user_id(str)</br>token(str)</td>
-    <td>username</td>
+    <td>username 用户邮箱</td>
     <td>﻿﻿﻿{"error":false,"error_code":0,"message":"\u83b7</br>\u53d6\u6210\u529f","username":"sb@qq.com"}</td>
 	<td>已完成</td>
 	<td><a href="/api/api/User.php?action=getusername&token=0BE02214776363C2C051F6876CD2440A&user_id=12d4a278679f806447d70c5fc0ebf990">测试</a></td>
@@ -157,7 +157,7 @@ html>body td{ font-size:11px;}
     <td>List.php</td>
     <td>Post</td>
 	<td>action=new</br>list_ame(str)</br>token(str)</td>
-    <td>-</td>
+    <td>list_id 列表ID</td>
     <td>{"error":false,"error_code":0,"message":"新建成功"}</td>
 	<td>已完成</td>
 	<td><a href="/api/debug/list-new.html">测试</a></td>
@@ -168,7 +168,7 @@ html>body td{ font-size:11px;}
     <td class="alt">List.php</td>
     <td class="alt">Post</td>
 	<td class="alt">action=del</br>list_id(str)</br>token(str)</td>
-    <td class="alt">-</td>
+    <td class="alt">list_id 列表ID</td>
     <td class="alt">{"error":false,"error_code":0,"message":"删除成功"}</td>
 	<td class="alt">已完成</td>
 	<td class="alt"><a href="/api/debug/list-del.html">测试</a></td>
@@ -179,7 +179,7 @@ html>body td{ font-size:11px;}
     <td>List.php</td>
     <td>Post</td>
 	<td>action=changename</br>list_name_new(str)</br>list_id(str)</br>token(str)</td>
-    <td>-</td>
+    <td>list_id 列表ID</td>
     <td>{"error":false,"error_code":0,"message":"修改成功"}</td>
 	<td>已完成</td>
 	<td><a href="/api/debug/list-changename.html">测试</a></td>
@@ -190,7 +190,7 @@ html>body td{ font-size:11px;}
     <td class="alt">List.php</td>
     <td class="alt">Post</td>
 	<td class="alt">action=get</br>token(str)</td>
-    <td class="alt">lists:{}</td>
+    <td class="alt">lists:{} 列表数组</br>list_id 列表ID</br>list_name 列表名称</br>event_total 事务数量</br>list_created_time 创建时间</br>list_class 列表类型（0为普通 1为共享列表）</br>shared 是否共享</td>
     <td class="alt">{"error":false,"error_code":0,"message":"获取成功,"lists":{...}}</td>
 	<td class="alt"> 已完成</td>
 	<td class="alt"><a href="/api/debug/list-get.html">测试</a></td>
@@ -201,7 +201,7 @@ html>body td{ font-size:11px;}
     <td>List.php</td>
     <td>Post</td>
 	<td>action=changeorder</br>order(str)</br>token(str)</td>
-    <td>-</td>
+    <td>new_order 新顺序</br>提交格式为“3-2-1”</td>
     <td>{"error":false,"error_code":0,"message":"修改成功"}</td>
 	<td>已完成</td>
 	<td><a href="/api/debug/list-changeorder.html">测试</a></td>
@@ -212,7 +212,7 @@ html>body td{ font-size:11px;}
     <td class="alt">List.php</td>
     <td class="alt">Post</td>
 	<td class="alt">action=share</br>list_id(str)</br>to_username(str)</br>token(str)</td>
-    <td class="alt">-</td>
+    <td class="alt">list_id 列表ID</br>to_username 共享给谁</td>
     <td class="alt">{"error":false,"error_code":0,"message":"共享成功"}</td>
 	<td class="alt"> 已完成</td>
 	<td class="alt"><a href="/api/debug/list-share.html">测试</a></td>
@@ -223,7 +223,7 @@ html>body td{ font-size:11px;}
     <td>Event.php</td>
     <td>Post</td>
 	<td>action=new</br>event_content(str)</br>list_id(str)</br>token(str)</td>
-    <td>-</td>
+    <td>event_id 事务ID</td>
     <td>{"error":false,"error_code":0,"message":"新建成功"}</td>
 	<td>已完成</td>
 	<td><a href="/api/debug/event-new.html">测试</a></td>
@@ -234,7 +234,7 @@ html>body td{ font-size:11px;}
     <td class="alt">Event.php</td>
     <td class="alt">Post</td>
 	<td class="alt">action=updatecontent</br>event_id(str)</br>event_content(str)</br>token(str)</td>
-    <td class="alt">-</td>
+    <td class="alt">event_id 事务ID</td>
     <td class="alt">{"error":false,"error_code":0,"message":"修改成功"}</td>
 	<td class="alt">已完成</td>
 	<td class="alt"><a href="/api/debug/event-update-content.html">测试</a></td>
@@ -245,7 +245,7 @@ html>body td{ font-size:11px;}
     <td>Event.php</td>
     <td>Post</td>
 	<td>action=del</br>list_id(str)</br>event_id(str)</br>token(str)</td>
-    <td>-</td>
+    <td>event_id 事务ID</td>
     <td>{"error":false,"error_code":0,"message":"删除成功"}</td>
 	<td>已完成</td>
 	<td><a href="/api/debug/event-del.html">测试</a></td>
@@ -256,7 +256,7 @@ html>body td{ font-size:11px;}
     <td class="alt">Event.php</td>
     <td class="alt">Post</td>
 	<td class="alt">action=get</br>list_id(str)</br>token(str)</td>
-    <td class="alt">-</td>
+    <td class="alt">events 事务数组</br> event_id 事务ID</br>event_content 事务内容</br>note_total 笔记总数</br>event_created_time 创建时间</br>event_starred 是否标星</br>event_completed 是否完成</br>event_due_date提醒日期</br>event_due_time 提醒时间</td>
     <td class="alt">{"error":false,"error_code":0,"message":"获取成功","events":{...}}</td>
 	<td class="alt">已完成</td>
 	<td class="alt"><a href="/api/debug/event-get.html">测试</a></td>
@@ -267,7 +267,7 @@ html>body td{ font-size:11px;}
     <td>Event.php</td>
     <td>Post</td>
 	<td>action=changedate</br>event_id(str)</br>event_date(str)</br>token(str)</td>
-    <td>-</td>
+    <td>event_id 事务ID</td>
     <td>{"error":false,"error_code":0,"message":"更新成功"}</td>
 	<td>已完成</td>
 	<td><a href="/api/debug/event-changedate.html">测试</a></td>
@@ -278,7 +278,7 @@ html>body td{ font-size:11px;}
     <td class="alt">Event.php</td>
     <td class="alt">Post</td>
 	<td class="alt">action=changetime</br>event_id(str)</br>event_time(str)</br>token(str)</td>
-    <td class="alt">-</td>
+    <td class="alt">event_id 事务ID</td>
     <td class="alt">{"error":false,"error_code":0,"message":"更新成功"}</td>
 	<td class="alt">已完成</td>
 	<td class="alt"><a href="/api/debug/event-changetime.html">测试</a></td>
@@ -289,7 +289,7 @@ html>body td{ font-size:11px;}
     <td>Event.php</td>
     <td>Post</td>
 	<td>action=completed</br>event_id(str)</br>token(str)</td>
-    <td>-</td>
+    <td>event_id 事务ID </br>event_completed 是否完成 </td>
     <td>{"error":false,"error_code":0,"message":"更新成功"}</td>
 	<td>已完成</td>
 	<td><a href="/api/debug/event-completed.html">测试</a></td>
@@ -300,7 +300,7 @@ html>body td{ font-size:11px;}
     <td class="alt">Event.php</td>
     <td class="alt">Post</td>
 	<td class="alt">action=starrted</br>event_id(str)</br>token(str)</td>
-    <td class="alt">-</td>
+    <td class="alt"> event_id 事务ID</br>event_starred 是否标星</td>
     <td class="alt">{"error":false,"error_code":0,"message":"更新成功"}</td>
 	<td class="alt">已完成</td>
 	<td class="alt"><a href="/api/debug/event-starrted.html">测试</a></td>
@@ -313,7 +313,7 @@ html>body td{ font-size:11px;}
     <td>Event.php</td>
     <td>Post</td>
 	<td>action=changeorder</br>new_order(str)</br>list_id(str)</br>token(str)</td>
-    <td>-</td>
+    <td>event_id 事务ID</td>
     <td>{"error":false,"error_code":0,"message":"修改成功"}</td>
 	<td>已完成</td>
 	<td><a href="/api/debug/event-changeorder.html">测试</a></td>
@@ -325,7 +325,7 @@ html>body td{ font-size:11px;}
     <td class="alt">Note.php</td>
     <td class="alt">Post</td>
 	<td class="alt">action=new</br>-</br>-</br>token(str)</td>
-    <td class="alt">-</td>
+    <td class="alt">note_id 笔记ID</td>
     <td class="alt">{"error":false,"error_code":0,"message":"新建成功"}</td>
 	<td class="alt">已完成</td>
 	<td class="alt"><a href="/api/debug/note-new.html">测试</a></td>
@@ -333,11 +333,11 @@ html>body td{ font-size:11px;}
   
     <tr>
     <th scope="row" abbr="G5 Processor" class="specalt">笔记</th>
-    <td>获取笔记标题</td>
+    <td>获取笔记</td>
     <td>Note.php</td>
     <td>Post</td>
 	<td>action=gettitles</br>event_id(str)</br>token(str)</td>
-    <td>-</td>
+    <td>notes 笔记数组</br>note_id 笔记ID</br>note_content 笔记内容</br>note_title笔记标题</br>note_created_time创建时间</br></td>
     <td>{"error":false,"error_code":0,"message":"获取成功",notes_title:[]}</td>
 	<td>已完成</td>
 	<td><a href="/api/debug/note-gettitles.html">测试</a></td>
@@ -350,7 +350,7 @@ html>body td{ font-size:11px;}
     <td class="alt">RESOURCEING</td>
     <td class="alt">POSTORGETE</td>
 	<td class="alt">GETINGPARA</td>
-    <td class="alt">RETURNING</td>
+    <td class="alt">RETURNINGRETURNINGRETURNING</td>
     <td class="alt">EX.</td>
 	<td class="alt">STATUSING</td>
 	<td class="alt">DEBUGADDR</td>

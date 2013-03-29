@@ -63,7 +63,7 @@
 				try{
 					Mongodb_Writter("todo_notes",$note);
 					Add_note_total($event_id);
-					$res = Return_Error(false,0,"创建成功");
+					$res = Return_Error(false,0,"创建成功",array("note_id" => $note_id));
 				} catch(MongoException $e) {
 					$res = Return_Error(true,2,"创建失败");
 				}

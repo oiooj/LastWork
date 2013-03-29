@@ -63,7 +63,7 @@
 				try{
 					Mongodb_Writter("todo_events",$event);
 					Add_event_total($list_id);
-					$res = Return_Error(false,0,"创建成功");
+					$res = Return_Error(false,0,"创建成功",array("event_id" => $event_id));
 				} catch(MongoException $e) {
 					$res = Return_Error(true,2,"创建失败");
 				}
@@ -85,7 +85,7 @@
 						Mongodb_Remover("todo_events",array("event_id" => $event_id));
 						if(Remove_relation_list_event($list_id,$event_id)){
 							Remove_event_total($list_id);
-							$res = Return_Error(false,0,"删除成功");
+							$res = Return_Error(false,0,"删除成功",array("event_id" => $event_id));
 						}else{
 							$res = Return_Error(true,9,"数据依赖关系不完整");
 						}
@@ -146,7 +146,7 @@
 			if($username = AccessToken_Getter($token)){
 				if($event = Mongodb_Reader("todo_events",array("event_id" => $event_id),1)){			
 						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_content" => $event_content));
-						$res = Return_Error(false,0,"修改成功");
+						$res = Return_Error(false,0,"修改成功",array("event_id" => $event_id));
 				}else{
 					$res = Return_Error(true,14,"该事务不存在");
 				}
@@ -164,7 +164,7 @@
 			if($username = AccessToken_Getter($token)){
 				if($event = Mongodb_Reader("todo_events",array("event_id" => $event_id),1)){			
 						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_due_time" => $event_time));
-						$res = Return_Error(false,0,"修改成功");
+						$res = Return_Error(false,0,"修改成功",array("event_id" => $event_id));
 				}else{
 					$res = Return_Error(true,14,"该事务不存在");
 				}
@@ -182,7 +182,7 @@
 			if($username = AccessToken_Getter($token)){
 				if($event = Mongodb_Reader("todo_events",array("event_id" => $event_id),1)){			
 						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_due_date" => $event_date));
-						$res = Return_Error(false,0,"修改成功");
+						$res = Return_Error(false,0,"修改成功",array("event_id" => $event_id));
 				}else{
 					$res = Return_Error(true,14,"该事务不存在");
 				}
@@ -205,7 +205,7 @@
 							$completed = true;
 						}
 						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_completed" => $completed));
-						$res = Return_Error(false,0,"修改成功");
+						$res = Return_Error(false,0,"修改成功",array("event_id" => $event_id,"event_completed" => $completed));
 				}else{
 					$res = Return_Error(true,14,"该事务不存在");
 				}
@@ -228,7 +228,7 @@
 							$starrted = true;
 						}
 						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_starred" => $starrted));
-						$res = Return_Error(false,0,"修改成功");
+						$res = Return_Error(false,0,"修改成功",array("event_id" => $event_id,"event_starred" => $starrted));
 				}else{
 					$res = Return_Error(true,14,"该事务不存在");
 				}
@@ -247,7 +247,7 @@
 				if($list_events = Mongodb_Reader("relation_list_event",array("list_id" => $list_id),1)){
 					if(($events_id = change_order($new_order,$list_events["events_id"])) != false ){
 						Mongodb_Updater("relation_list_event",array("list_id" => $list_id),array("events_id" => $events_id));
-						$res = Return_Error(true,0,"修改成功");
+						$res = Return_Error(true,0,"修改成功",array("event_id" => $event_id));
 					}else{
 						$res = Return_Error(true,15,"事务数量有误");
 					}
