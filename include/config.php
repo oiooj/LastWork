@@ -2,9 +2,12 @@
 error_reporting(E_ALL);
 
 $SYS_CONFIG["DB"]["TYPE"]       = "mongodb";		  
-$SYS_CONFIG["DB"]["MASTER"]     = "mongodb://oiooj:123@ds043977.mongolab.com:43977/web";  
-$SYS_CONFIG["DB"]["SLAVE"]      = "mongodb://oiooj:123@ds043977.mongolab.com:43977/web"; 
-$SYS_CONFIG["DB"]["DATABASE"]   = "web";
+$SYS_CONFIG["DB"]["MASTER"]     = "mongodb://192.168.139.100:27017";
+$SYS_CONFIG["DB"]["SLAVE"]      = "mongodb://192.168.139.101:27017";
+#$SYS_CONFIG["DB"]["MASTER"]     = "mongodb://oiooj:123@ds043977.mongolab.com:43977/web";  
+#$SYS_CONFIG["DB"]["SLAVE"]      = "mongodb://oiooj:123@ds043977.mongolab.com:43977/web"; 
+#$SYS_CONFIG["DB"]["DATABASE"]   = "web";
+$SYS_CONFIG["DB"]["DATABASE"]   = "Web_Design_Todo";
 $SYS_CONFIG["DB"]["CHARSET"]    = "utf8";
 
 $SYS_CONFIG["FLASH_EXTENSIONS"]	= "swf";
@@ -14,7 +17,7 @@ $SYS_CONFIG["OS"] 				= "CentOS";
 
 $SYS_CONFIG["TIME"]["START"]       = Microtime_Float();
 $SYS_CONFIG["USE_MEMCACHE"]        = false;
-$SYS_CONFIG["ACCESSTOKEN_SERVERS"] = array(  'servers' => array('memcached.oiooj.com:11211'),'debug'   => false,'compress_threshold' => 10240,'persistant' => true);
+$SYS_CONFIG["ACCESSTOKEN_SERVERS"] = array(  'servers' => array('192.168.139.103:11211'),'debug'   => false,'compress_threshold' => 10240,'persistant' => true);
 $SYS_CONFIG["MEMCACHE_SERVERS"]    = array(  'servers' => array('192.168.139.102:11211'),'debug'   => false,'compress_threshold' => 10240,'persistant' => true);
 $SYS_CONFIG["ACCESS_TOKEN_TIME"]   = 600;
 
