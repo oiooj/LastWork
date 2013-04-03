@@ -34,7 +34,7 @@ if (!isset($SYS_CONFIG['NO_SESSION'])) {
 
 $SYS_CONFIG["CONFIG_PATH"] = dirname(__FILE__);
 
-//header("Content-type: text/html; charset=utf-8"); 
+header("Content-type: text/html; charset=utf-8"); 
 
 
 ?>
