@@ -53,7 +53,7 @@
 
 		}
 		Close_Mongodb($mogo);
-		Cache_Timemap(false);
+		//Cache_Timemap(false);
 		return $data;
 	}
 	
