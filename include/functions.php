@@ -40,7 +40,7 @@
 		if($type == 1){
 			$key = Create_Key($collection_name.$condition);
 			if($data = Memcached_Getter($key)){				
-				Cache_Timemap(true);
+				//Cache_Timemap(true);
 				return $data;
 			}
 			$data = $collection->findOne($condition);
