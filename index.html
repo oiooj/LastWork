@@ -342,6 +342,31 @@ html>body td{ font-size:11px;}
 	<td>已完成</td>
 	<td><a href="/api/debug/note-gettitles.html">测试</a></td>
   </tr>
+  
+  
+      <tr>
+    <th scope="row" abbr="G5 Processor" class="specalt">笔记</th>
+    <td class="alt">删除</td>
+    <td class="alt">Note.php</td>
+    <td class="alt">Post</td>
+	<td class="alt">action=del</br>event_id</br>note_id</br>token(str)</td>
+    <td class="alt">note_id 笔记ID</td>
+    <td class="alt">{"error":false,"error_code":0,"message":"删除成功"}</td>
+	<td class="alt">已完成</td>
+	<td class="alt"><a href="/api/debug/note-del.html">测试</a></td>
+  </tr>
+  
+    <tr>
+    <th scope="row" abbr="G5 Processor" class="specalt">笔记</th>
+    <td>修改笔记</td>
+    <td>Note.php</td>
+    <td>Post</td>
+	<td>action=update</br>note_title(str)</br>note_content(str)</br>note_id(str)</br>token(str)</td>
+    <td>note_id 笔记ID</td>
+    <td>{"error":false,"error_code":0,"message":"修改成功",note_id:}</td>
+	<td>已完成</td>
+	<td><a href="/api/debug/note-update.html">测试</a></td>
+  </tr>
 
 
   <tr>

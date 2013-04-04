@@ -58,7 +58,7 @@
 		if(($list_id = Str_filter($_POST['list_id'])) && ($event_content = Str_filter($_POST['event_content'])) && ($token = Str_filter($_POST['token']))){
 			if($username = AccessToken_Getter($token)){
 				$event_id = Create_Uid($event_content);
-				$event =  array("event_content" => $event_content,"event_id" => $event_id,"note_total" => 0,"event_class" => 0,"event_created_time" =>  Now(),"event_starred" =>false,"event_completed" =>false,"event_due_date" =>"","event_due_time" =>"");
+				$event =  array("event_content" => $event_content,"event_id" => $event_id,"note_total" => 0,"event_class" => 0,"event_created_time" =>  Now(),"event_last_modify" =>  Now(),"event_starred" =>false,"event_completed" =>false,"event_due_date" =>"","event_due_time" =>"");
 				Add_relation_list_event($list_id,$event_id);
 				try{
 					Mongodb_Writter("todo_events",$event);
@@ -121,6 +121,7 @@
 							$return_event[$num_event]['event_completed'] = $event['event_completed'];
 							$return_event[$num_event]['event_due_date'] = $event['event_due_date'];
 							$return_event[$num_event]['event_due_time'] = $event['event_due_time'];
+							$return_event[$num_event]['event_last_modify'] = $event['event_last_modify'];
 							
 							$num_event++;
 						}else{
@@ -145,7 +146,7 @@
 		if( ($token = Str_filter($_POST['token'])) && ($event_id = Str_filter($_POST['event_id'])) && ($event_content = Str_filter($_POST['event_content']))){
 			if($username = AccessToken_Getter($token)){
 				if($event = Mongodb_Reader("todo_events",array("event_id" => $event_id),1)){			
-						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_content" => $event_content));
+						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_last_modify" =>  Now(),"event_content" => $event_content));
 						$res = Return_Error(false,0,"修改成功",array("event_id" => $event_id));
 				}else{
 					$res = Return_Error(true,14,"该事务不存在");
@@ -163,7 +164,7 @@
 		if( ($token = Str_filter($_POST['token'])) && ($event_id = Str_filter($_POST['event_id'])) && ($event_time = Str_filter($_POST['event_time']))){
 			if($username = AccessToken_Getter($token)){
 				if($event = Mongodb_Reader("todo_events",array("event_id" => $event_id),1)){			
-						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_due_time" => $event_time));
+						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_last_modify" =>  Now(),"event_due_time" => $event_time));
 						$res = Return_Error(false,0,"修改成功",array("event_id" => $event_id));
 				}else{
 					$res = Return_Error(true,14,"该事务不存在");
@@ -181,7 +182,7 @@
 		if( ($token = Str_filter($_POST['token'])) && ($event_id = Str_filter($_POST['event_id'])) && ($event_date = Str_filter($_POST['event_date']))){
 			if($username = AccessToken_Getter($token)){
 				if($event = Mongodb_Reader("todo_events",array("event_id" => $event_id),1)){			
-						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_due_date" => $event_date));
+						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_last_modify" =>  Now(),"event_due_date" => $event_date));
 						$res = Return_Error(false,0,"修改成功",array("event_id" => $event_id));
 				}else{
 					$res = Return_Error(true,14,"该事务不存在");
@@ -204,7 +205,7 @@
 						}else{
 							$completed = true;
 						}
-						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_completed" => $completed));
+						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_last_modify" =>  Now(),"event_completed" => $completed));
 						$res = Return_Error(false,0,"修改成功",array("event_id" => $event_id,"event_completed" => $completed));
 				}else{
 					$res = Return_Error(true,14,"该事务不存在");
@@ -227,7 +228,7 @@
 						}else{
 							$starrted = true;
 						}
-						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_starred" => $starrted));
+						Mongodb_Updater("todo_events",array("event_id" => $event_id),array("event_last_modify" =>  Now(),"event_starred" => $starrted));
 						$res = Return_Error(false,0,"修改成功",array("event_id" => $event_id,"event_starred" => $starrted));
 				}else{
 					$res = Return_Error(true,14,"该事务不存在");
