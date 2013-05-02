@@ -9,6 +9,11 @@
 		exit(0);
 	}
 	
+	if(isset($_POST["starred"]) && isset($_POST["action"]) &&  ("new_android" == Str_filter($_POST['action'])) ){
+		Event_Android_New();
+		exit(0);
+	}
+	
 	if(isset($_POST["action"]) && ("del" == Str_filter($_POST['action'])) ){
 		Event_Delete();
 		exit(0);
@@ -54,6 +59,34 @@
 	
 	
 	//For Event New
+	function Event_Android_New(){
+		if(  ($event_time = Str_filter($_POST['event_time'])) &&   ($event_date = Str_filter($_POST['event_date'])) &&  ($starred = Str_filter($_POST['starred'])) &&  ($list_id = Str_filter($_POST['list_id'])) && ($event_content = Str_filter($_POST['event_content'])) && ($token = Str_filter($_POST['token']))){
+			if($username = AccessToken_Getter($token)){
+				if($starred == "true"){
+					$starred = true;
+				}else{
+					$starred = false;
+				}
+				$event_id = Create_Uid($event_content);
+				$event =  array("event_content" => $event_content,"event_id" => $event_id,"note_total" => 0,"event_class" => 0,"event_created_time" =>  Now(),"event_last_modify" =>  Now(),"event_starred" =>$starred,"event_completed" =>false,"event_due_date" =>$event_date,"event_due_time" =>$event_time);
+				Add_relation_list_event($list_id,$event_id);
+				try{
+					Mongodb_Writter("todo_events",$event);
+					Add_event_total($list_id);
+					$res = Return_Error(false,0,"创建成功",array("event_id" => $event_id));
+				} catch(MongoException $e) {
+					$res = Return_Error(true,2,"创建失败");
+				}
+			}else{
+				$res = Return_Error(true,7,"token无效或登录超时");
+			}
+		}else{
+			$res = Return_Error(true,4,"提交的数据为空");
+		}
+		echo $res;
+	}
+	
+	//For Event New on Android
 	function Event_New(){
 		if(($list_id = Str_filter($_POST['list_id'])) && ($event_content = Str_filter($_POST['event_content'])) && ($token = Str_filter($_POST['token']))){
 			if($username = AccessToken_Getter($token)){
@@ -75,6 +108,11 @@
 		}
 		echo $res;
 	}
+	
+	
+	
+	
+	
 	
 	//For Event Delete
 	function Event_Delete(){
