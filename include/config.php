@@ -19,7 +19,7 @@ $SYS_CONFIG["TIME"]["START"]       =    Microtime_Float();
 $SYS_CONFIG["USE_MEMCACHE"]        =    false;
 $SYS_CONFIG["ACCESSTOKEN_SERVERS"] =    array(  'servers' => array('cache@103:11211'),'debug'   => false,'compress_threshold' => 10240,'persistant' => true);
 $SYS_CONFIG["MEMCACHE_SERVERS"]    =    array(  'servers' => array('cache@102:11211'),'debug'   => false,'compress_threshold' => 10240,'persistant' => true);
-$SYS_CONFIG["ACCESS_TOKEN_TIME"]   =    600;
+$SYS_CONFIG["ACCESS_TOKEN_TIME"]   =    1500;
 
 $SYS_CONFIG["EMAIL"]["HOST"]       =    "smtp.126.com";
 $SYS_CONFIG["EMAIL"]["USER"]       =    "nototon@126.com";
