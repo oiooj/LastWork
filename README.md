@@ -1,7 +1,7 @@
 毕业设计
 =======
 
-毕业设计 不解释 用到了memcached、MogoDB
+毕业设计 不解释 用到了memcached、MongoDB
 开发语言PHP 
 这应该是我大学期间的最后一个系统了...
 
